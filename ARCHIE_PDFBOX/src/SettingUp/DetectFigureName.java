@@ -175,6 +175,9 @@ public class DetectFigureName {
                 WordMatch.add(wordApp);
                 fontBase_Fig.add(Configuration.FONT_BASE_KEY);
 
+            } else if (word_posX >= rect.x && (Configuration.PAGE_SIZE_A4[1] - word_posY) <= rect.y && isFoundWord(words_ele)) {
+                WordMatch.add(wordApp);
+                fontBase_Fig.add(Configuration.FONT_BASE_KEY);
             }
         }
 
