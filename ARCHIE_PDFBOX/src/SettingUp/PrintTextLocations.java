@@ -55,7 +55,7 @@ public class PrintTextLocations extends PDFTextStripper {
     }
 
     public void appendWordsSameStyle() {
-
+//        System.out.println(TextDescArr.size());
         String font_base_tmp = TextDescArr.get(0).get(Configuration.FONT_BASE_KEY).toString();
 
         String words = "";
@@ -115,17 +115,19 @@ public class PrintTextLocations extends PDFTextStripper {
         }
         setWordAppendArr(WordAppendArr);
 //        printOut_MapArr(getWordAppendArr());
+        
     }
 
     public void processTextPosition(TextPosition text) {
         TextDesc = new HashMap<String, String>();
+
         TextDesc.put(Configuration.CHARATER_KEY, text.getCharacter() + "");
         TextDesc.put(Configuration.POSITION_X_KEY, text.getXDirAdj() + "");
         TextDesc.put(Configuration.POSITION_Y_KEY, text.getYDirAdj() + "");
         TextDesc.put(Configuration.FONT_BASE_KEY, text.getFont().getBaseFont());
-        TextDesc.put(Configuration.ITALIC_KEY, text.getFont().getFontDescriptor().isItalic() + "");
-        TextDesc.put(Configuration.BOLD_KEY, (text.getFont().getBaseFont().contains("bold") || text.getFont().getBaseFont().contains("Bold")) + "");
-        TextDesc.put(Configuration.BOLD_AND_ITALIC_KEY, text.getFont().getBaseFont().contains("boldIt") + "");
+        TextDesc.put(Configuration.ITALIC_KEY, text.getFont().getBaseFont().toLowerCase().toString().contains("-it") + "");
+        TextDesc.put(Configuration.BOLD_KEY, text.getFont().getBaseFont().toLowerCase().contains("bold") + "");
+        TextDesc.put(Configuration.BOLD_AND_ITALIC_KEY, text.getFont().getBaseFont().toLowerCase().contains("boldIt") + "");
         TextDescArr.add(TextDesc);
 
 //        System.out.println("String[" + text.getXDirAdj() + ","

@@ -113,20 +113,18 @@ public class DetectFigureName {
                     //System.out.println("====" + textArea.getX() + " " + textArea.getY() + " " + textArea.getWidth() + " " + textArea.getHeight());
                     rect = new Rectangle(textArea.getUpper_x(), textArea.getUpper_y(), (int) textArea.getWidth(), textArea.getHeight());
 
-                    //if (croppedString.trim().length() > 0) {
-                    //System.out.println("\t====>" + croppedString);
-                    //System.out.println("");
-                    //}
+//                    if (croppedString.trim().length() > 0) {
+//                        System.out.println(croppedString);
+//                        System.out.println("--------------------");
+//                    }
                     if (isFoundWord(croppedString)) {
                         fig_number = checkFontStyle(croppedString, rect, WordAppendArr, pos);
                         System.out.println("Fig_number : " + fig_number);
-                        System.out.println(index + " - " + original_imgName.size());
                         ImageRename ir = new ImageRename(filename.getParent().toString(), original_imgName.get(index), fig_number);
-
                     }
                     new_pos_y = new_pos_y - 50;
 
-                } while (new_pos_y <= page_height && fig_number.length() == 0);
+                } while (new_pos_y >= 0 && fig_number.length() == 0);
 //***************************************************************************************************************************
             } else {
 
@@ -164,14 +162,14 @@ public class DetectFigureName {
             words_ele = wordApp.get(Configuration.CHARATER_KEY).toString();
             String isItalic = wordApp.get(Configuration.ITALIC_KEY).toString();
             String isBoth = wordApp.get(Configuration.BOLD_AND_ITALIC_KEY).toString();
-
-//            if (words_ele.contains("Figure")) {
-//                System.out.println(rect + " : X" + word_posX + " > " + rect.x + " Y :" + word_posY + " > " + rect.y);
-//                System.out.println(words_ele + " = " + (word_posX >= rect.x && word_posY >= rect.y));
-//            }
+            //================= Comment later=======================================
+            if (isFoundWord(words_ele)) {
+                System.out.println(rect + " : X" + word_posX + " > " + rect.x + " Y :" + word_posY + " > " + rect.y);
+                System.out.println(words_ele + " = " + (word_posX >= rect.x && word_posY >= rect.y));
+            }
+            //================= Comment later=======================================
             if (word_posX >= rect.x && (Configuration.PAGE_SIZE_A4[1] - word_posY) <= rect.y && isFoundWord(words_ele)
                     && (isBold.equalsIgnoreCase("true") || isItalic.equalsIgnoreCase("true") || isBoth.equalsIgnoreCase("true"))) {
-
                 WordMatch.add(wordApp);
                 fontBase_Fig.add(Configuration.FONT_BASE_KEY);
 
@@ -203,6 +201,7 @@ public class DetectFigureName {
             String pattern = Configuration.REGEX_FIG;
             Pattern r = Pattern.compile(pattern);
             Matcher m = r.matcher(str);
+
             if (m.find()) {
                 return true;
             }

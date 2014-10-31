@@ -14,7 +14,7 @@ public class Configuration {
     public static final String PASSWORD = "fang";
     public static final int SWITCH_XML_MODE = 1;
     public static final double[] PAGE_SIZE_A4 = {595.0, 795.0};
-    public static final String REGEX_FIG = "($(F|f)igs?\\.?.{0,1}[\\d+| ]\\.?|(F|f)igures?\\.?.{0,1}[\\d+| ]\\.?)";
+    public static final String REGEX_FIG = "(^(F|f)igs?.!?.{0,1}[\\d+| ]\\.?|^(F|f)igures?.!?.{0,1}[\\d+| ]\\.?)";
 
     //Map Key
     public static final String CHARATER_KEY = "alphabet";
