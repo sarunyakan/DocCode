@@ -40,7 +40,7 @@ public class ExtractPageContentArea {
         this.upper_y = upper_y;
         this.lower_x = lower_x;
         this.lower_y = lower_y;
-        this.width = upper_x - lower_x;
+        this.width = lower_x - upper_x;
         this.height = upper_y - lower_y;
         parsePdf(pdf, pageNum, upper_x, upper_y, lower_x, lower_y);
         setHeight(height);
@@ -49,8 +49,7 @@ public class ExtractPageContentArea {
 
     public void parsePdf(String pdf, int pageNum, int upper_x, int upper_y, int lower_x, int lower_y) throws IOException {
         PdfReader reader = new PdfReader(pdf);
-        //System.out.println(upper_x + " * " + upper_y + " * " + (float) Configuration.PAGE_SIZE_A4[0] + " * " + lower_y + " --> width" + getWidth());
-        //System.out.println(rect.getHeight() + " + " + rect.getWidth());
+        System.out.println("(" + upper_x + " , " + upper_y + ") to ( " + lower_x + " , " + lower_y + ")");
         rect = new Rectangle(upper_x, upper_y, lower_x, lower_y);
         RenderFilter filter = new RegionTextRenderFilter(getRect());
         TextExtractionStrategy strategy;

@@ -18,18 +18,20 @@ import java.util.regex.Pattern;
 public class ImageRename {
 
     private String ori_imageName = "";
-    private String fig_name;
+    private String fig_name = "";
     private String new_figName = "";
     private String pathName = "";
     private String validString = "";
+    private String reg = "";
 
     public ImageRename() {
 
     }
 
-    public ImageRename(String pathName, String ori_imageName, String fig_name) {
+    public ImageRename(String reg, String pathName, String ori_imageName, String fig_name) {
+        this.reg = reg;
         this.ori_imageName = ori_imageName;
-        this.fig_name = fig_name;
+        this.fig_name = fig_name.trim();
         this.pathName = pathName + "/IMG/";
         validString = ValidString();
         RenameFile();
@@ -42,7 +44,8 @@ public class ImageRename {
 
         file = new File(pathName + ori_imageName);
         newFile = new File(pathName + ori_imageName.replace("cover", validString.replace(".", "+")).replace(" ", ""));
-
+        System.out.println("OLD FIlE : "+file.toString());
+        System.out.println("New File : "+newFile.toString());
         if (!newFile.exists()) {
             if (file.exists()) {
                 renamed = file.renameTo(newFile);
@@ -59,8 +62,9 @@ public class ImageRename {
     }
 
     public String ValidString() {
-        String pattern_str = Configuration.REGEX_FIG;
+        String pattern_str = reg;
         String line = "";
+
         Pattern pattern = Pattern.compile(pattern_str);
         Matcher matcher = pattern.matcher(fig_name);
         while (matcher.find()) {

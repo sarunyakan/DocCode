@@ -123,7 +123,7 @@ public class PrintTextLocations extends PDFTextStripper {
 
         TextDesc.put(Configuration.CHARATER_KEY, text.getCharacter() + "");
         TextDesc.put(Configuration.POSITION_X_KEY, text.getXDirAdj() + "");
-        TextDesc.put(Configuration.POSITION_Y_KEY, text.getYDirAdj() + "");
+        TextDesc.put(Configuration.POSITION_Y_KEY, Configuration.PAGE_SIZE_A4[1]-text.getYDirAdj() + "");
         TextDesc.put(Configuration.FONT_BASE_KEY, text.getFont().getBaseFont());
         TextDesc.put(Configuration.ITALIC_KEY, text.getFont().getBaseFont().toLowerCase().toString().contains("-it") + "");
         TextDesc.put(Configuration.BOLD_KEY, text.getFont().getBaseFont().toLowerCase().contains("bold") + "");

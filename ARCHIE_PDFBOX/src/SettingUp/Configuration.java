@@ -15,7 +15,8 @@ public class Configuration {
     public static final int SWITCH_XML_MODE = 1;
     public static final double[] PAGE_SIZE_A4 = {595.0, 795.0};
     public static final String REGEX_FIG = "(^(F|f)igs?.!?.{0,1}[\\d+| ]\\.?|^(F|f)igures?.!?.{0,1}[\\d+| ]\\.?)";
-
+    public static final String REGEX_FIG2 = "((^|\n)(F|f)igs?.!?.{0,1}[\\d+| ]\\.?|(^|\n)(F|f)igures?.!?.{0,1}[\\d+| ]\\.?)";
+    public static final int CROPPED_AREA_WIDTH = 10;
     //Map Key
     public static final String CHARATER_KEY = "alphabet";
     public static final String POSITION_X_KEY = "position_x";
