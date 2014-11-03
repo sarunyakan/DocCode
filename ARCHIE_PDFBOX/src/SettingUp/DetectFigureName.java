@@ -109,7 +109,7 @@ public class DetectFigureName {
     }
 
     public void ExtractStringFromRightSide(double pos_x, double pos_y, double[] pos, int index) throws IOException, COSVisitorException {
-        System.out.println("\n!!!!!! IMAGE DIMENSION :(x,y) : (" + pos_x + "," + pos_y + ") !!!!!!!!!!");
+//        System.out.println("\n!!!!!! IMAGE DIMENSION :(x,y) : (" + pos_x + "," + pos_y + ") !!!!!!!!!!");
         String fig_number = "";
         double new_pos_y = pos_y;
         double new_pos_x = 0;
@@ -121,8 +121,8 @@ public class DetectFigureName {
             ExtractPageContentArea textArea = new ExtractPageContentArea(filename.toString(), page_num, (int) new_pos_x, (int) new_pos_y, (int) Configuration.PAGE_SIZE_A4[0], (int) new_pos_y - Configuration.CROPPED_AREA_WIDTH);
             croppedString = textArea.getTextCropped();
             rect = new Rectangle(textArea.getUpper_x(), textArea.getUpper_y(), (int) textArea.getWidth(), textArea.getHeight());
-            System.out.println("1 && " + textArea.getUpper_x() + "," + textArea.getUpper_y() + "," + textArea.getLower_x() + "," + textArea.getLower_y() + "," + (int) textArea.getWidth() + "," + textArea.getHeight());
-            System.out.println(croppedString + "\n###################################\n");
+//            System.out.println("1 && " + textArea.getUpper_x() + "," + textArea.getUpper_y() + "," + textArea.getLower_x() + "," + textArea.getLower_y() + "," + (int) textArea.getWidth() + "," + textArea.getHeight());
+//            System.out.println(croppedString + "\n###################################\n");
 
             if (croppedString.length() > 0 && isFoundWord(Configuration.REGEX_FIG, croppedString)) {
                 fig_number = checkFontStyle(Configuration.REGEX_FIG, croppedString, rect, WordAppendArr, pos);
@@ -191,23 +191,23 @@ public class DetectFigureName {
             String isBoth = wordApp.get(Configuration.BOLD_AND_ITALIC_KEY).toString();
             //================= Comment later=======================================
 
-            if (isFoundWord(reg, words_ele)) {
-                System.out.println(rect + " : X : " + word_posX + " Y :" + word_posY + " rect.x :" + rect.x + " rect.y : " + rect.y);
-                System.out.println(words_ele + " = " + (word_posX >= rect.x && word_posY <= rect.y));
-            }
+//            if (isFoundWord(reg, words_ele)) {
+//                System.out.println(rect + " : X : " + word_posX + " Y :" + word_posY + " rect.x :" + rect.x + " rect.y : " + rect.y);
+//                System.out.println(words_ele + " = " + (word_posX >= rect.x && word_posY <= rect.y));
+//            }
             //================= Comment later=======================================
             if (word_posX >= rect.x && word_posY <= rect.y && isFoundWord(reg, words_ele)
                     && (isBold.equalsIgnoreCase("true") || isItalic.equalsIgnoreCase("true") || isBoth.equalsIgnoreCase("true"))) {
                 WordMatch.add(wordApp);
                 fontBase_Fig.add(Configuration.FONT_BASE_KEY);
-                System.out.println("Case1");
+//                System.out.println("Case1");
                 chk_con = 1;
                 index_arr.add(WordAppendArr.indexOf(wordApp));
                 break;
             } else if (word_posX >= rect.x && word_posY <= rect.y && isFoundWord(reg, words_ele)) {
                 WordMatch.add(wordApp);
                 fontBase_Fig.add(Configuration.FONT_BASE_KEY);
-                System.out.println("Case2");
+//                System.out.println("Case2");
                 chk_con = 2;
                 index_arr.add(WordAppendArr.indexOf(wordApp));
                 break;
@@ -236,7 +236,7 @@ public class DetectFigureName {
     public void removeUsedEle(ArrayList<HashMap> WordAppendArr, ArrayList<Integer> index_arr) {
         //System.out.println("BEFORE DEL >> WordAppendArr : " + WordAppendArr.size());
         for (Integer index_arr1 : index_arr) {
-            System.out.println("DEL index_arr1 :" + index_arr1);
+//            System.out.println("DEL index_arr1 :" + index_arr1);
             WordAppendArr.remove(WordAppendArr.get(index_arr1));
         }
         //System.out.println("AFTER DEL >> WordAppendArr : " + WordAppendArr.size());

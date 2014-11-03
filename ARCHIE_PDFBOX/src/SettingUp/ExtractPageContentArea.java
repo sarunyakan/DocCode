@@ -49,7 +49,7 @@ public class ExtractPageContentArea {
 
     public void parsePdf(String pdf, int pageNum, int upper_x, int upper_y, int lower_x, int lower_y) throws IOException {
         PdfReader reader = new PdfReader(pdf);
-        System.out.println("(" + upper_x + " , " + upper_y + ") to ( " + lower_x + " , " + lower_y + ")");
+//        System.out.println("(" + upper_x + " , " + upper_y + ") to ( " + lower_x + " , " + lower_y + ")");
         rect = new Rectangle(upper_x, upper_y, lower_x, lower_y);
         RenderFilter filter = new RegionTextRenderFilter(getRect());
         TextExtractionStrategy strategy;

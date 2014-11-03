@@ -43,9 +43,9 @@ public class ImageRename {
         boolean renamed = false;
 
         file = new File(pathName + ori_imageName);
-        newFile = new File(pathName + ori_imageName.replace("cover", validString.replace(".", "+")).replace(" ", ""));
-        System.out.println("OLD FIlE : "+file.toString());
-        System.out.println("New File : "+newFile.toString());
+        newFile = new File(pathName + ori_imageName.replace("cover", validString.replace(".", "")).replace(" ", ""));
+//        System.out.println("OLD FIlE : "+file.toString());
+//        System.out.println("New File : "+newFile.toString());
         if (!newFile.exists()) {
             if (file.exists()) {
                 renamed = file.renameTo(newFile);
@@ -64,7 +64,8 @@ public class ImageRename {
     public String ValidString() {
         String pattern_str = reg;
         String line = "";
-
+//        System.out.println(fig_name);
+//        System.out.println(pattern_str);
         Pattern pattern = Pattern.compile(pattern_str);
         Matcher matcher = pattern.matcher(fig_name);
         while (matcher.find()) {
