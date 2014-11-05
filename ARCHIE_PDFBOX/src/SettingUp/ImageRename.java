@@ -69,8 +69,10 @@ public class ImageRename {
         while (matcher.find()) {
             line = matcher.group(1);
         }
-
-        return line;
+        if (line.length() <= 6) {
+            line = line.toLowerCase().replace("fig", "figure");
+        }
+        return line.toLowerCase();
     }
 
 }
