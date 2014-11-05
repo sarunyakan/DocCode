@@ -8,7 +8,7 @@ package SettingUp;
  */
 public class Configuration {
 
-    public static final String PATH_DIR = "E:/Doctoral_Research/Source/PDF/02/00/";
+    public static final String PATH_DIR = "E:/Doctoral_Research/Source/PDF/";
     public static final String DANAME = "ARCHIE";
     public static final String USERNAME = "fang";
     public static final String PASSWORD = "fang";
@@ -16,7 +16,9 @@ public class Configuration {
     public static final double[] PAGE_SIZE_A4 = {595.0, 795.0};
     public static final String REGEX_FIG = "(^(F|f)igures?\\.? {0,1}\\d*\\.?|^(F|f)igs?\\.? {0,1}\\d*\\.?)";
     public static final String REGEX_FIG2 = "((^|\n)(F|f)igures?\\.? {0,1}\\d*\\.?|(^|\n)(F|f)igs?\\.? {0,1}\\d*\\.?)";
-    public static final int CROPPED_AREA_WIDTH = 10;
+    public static final String REGEX_FIG3 = "(^?(F|f)igures?\\.? {0,1}\\d*\\.?|^?(F|f)igs?\\.? {0,1}\\d*\\.?)";
+     public static final String REGEX_FIG4 = "((^|\n)?(F|f)igures?\\.? {0,1}\\d*\\.?|(^|\n)?(F|f)igs?\\.? {0,1}\\d*\\.?)";
+    public static final int CROPPED_AREA_WIDTH = 20;
     //Map Key
     public static final String CHARATER_KEY = "alphabet";
     public static final String POSITION_X_KEY = "position_x";
