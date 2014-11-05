@@ -5,11 +5,7 @@
  */
 package SettingUp;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
-
-import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.FilteredTextRenderListener;

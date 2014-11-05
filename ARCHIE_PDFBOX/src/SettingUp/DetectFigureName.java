@@ -5,18 +5,8 @@
  */
 package SettingUp;
 
-import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.parser.FilteredTextRenderListener;
-import com.itextpdf.text.pdf.parser.LocationTextExtractionStrategy;
-import com.itextpdf.text.pdf.parser.PdfTextExtractor;
-import com.itextpdf.text.pdf.parser.RegionTextRenderFilter;
-import com.itextpdf.text.pdf.parser.RenderFilter;
-import com.itextpdf.text.pdf.parser.TextExtractionStrategy;
 import java.awt.Rectangle;
-import java.io.FileOutputStream;
-
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,16 +14,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.pdfbox.exceptions.COSVisitorException;
-import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDFont;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.util.PDFTextStripperByArea;
 
 public class DetectFigureName {
@@ -41,7 +26,6 @@ public class DetectFigureName {
     private ArrayList<String> original_imgName;
     private PDPage page;
     private ArrayList<double[]> location_xy = new ArrayList<double[]>();
-    //private ArrayList<String> FigureName = new ArrayList<String>();
     private ArrayList<String> fontBase_Fig = null;
     private HashSet fontBase_Fig_set = null;
     private ArrayList<double[]> size_xy = new ArrayList<double[]>();
@@ -59,7 +43,6 @@ public class DetectFigureName {
 
     public DetectFigureName() {
     }
-//ส่ง location กับ size ของ image มา ใน 1 หน้า
 
     public DetectFigureName(ArrayList<String> original_imgName, Path filename, int page_num, PDPage page, ArrayList<double[]> location_xy, ArrayList<double[]> size_xy) throws IOException, COSVisitorException {
         this.filename = filename;
@@ -94,17 +77,78 @@ public class DetectFigureName {
             double pos_y = pos[1];
             boolean isLeftSide = CheckImgSide(pos_x);
 
-            double new_pos_y = pos_y;
-            double new_pos_x = 0;
-            String croppedString = "";
-
             if (!isLeftSide) {
                 ExtractStringFromRightSide(pos_x, pos_y, pos, index);
             } else {
-
-                //On the left side
+                ExtractStringFromLeftSide(pos_x, pos_y, pos, index);
             }
             index++;
+        }
+    }
+
+    public void ExtractStringFromLeftSide(double pos_x, double pos_y, double[] pos, int index) throws IOException {
+        String fig_number = "";
+        double new_pos_y = pos_y;
+        double new_pos_x = 0;
+        String croppedString = "";
+
+        //left + bottom
+        do {
+            ExtractPageContentArea textArea = new ExtractPageContentArea(filename.toString(), page_num, (int) new_pos_x, (int) new_pos_y, (int) Configuration.PAGE_SIZE_A4[0] / 2, (int) new_pos_y - Configuration.CROPPED_AREA_WIDTH);
+            croppedString = textArea.getTextCropped();
+            rect = new Rectangle(textArea.getUpper_x(), textArea.getUpper_y(), (int) textArea.getWidth(), textArea.getHeight());
+
+            if (croppedString.length() > 0 && isFoundWord(Configuration.REGEX_FIG, croppedString)) {
+                fig_number = checkFontStyle(Configuration.REGEX_FIG, croppedString, rect, WordAppendArr, pos, 0);
+                System.out.println("Fig_number : " + fig_number);
+                ImageRename ir = new ImageRename(Configuration.REGEX_FIG, filename.getParent().toString(), original_imgName.get(index), fig_number);
+            } else if (croppedString.length() > 0 && !isFoundWord(Configuration.REGEX_FIG, croppedString)) {
+                break;
+            }
+            new_pos_y = new_pos_y - Configuration.CROPPED_AREA_WIDTH;
+        } while (new_pos_y >= 0 && fig_number.length() == 0);
+
+        new_pos_y = pos_y;
+        new_pos_x = 0;
+        croppedString = "";
+
+        //Upper
+        if (fig_number.length() == 0) {
+            do {
+                ExtractPageContentArea textArea = new ExtractPageContentArea(filename.toString(), page_num, (int) new_pos_x, (int) new_pos_y + Configuration.CROPPED_AREA_WIDTH, (int) Configuration.PAGE_SIZE_A4[0] / 2, (int) new_pos_y);
+                croppedString = textArea.getTextCropped().trim();
+//                System.out.println("2 && " + textArea.getUpper_x() + "," + textArea.getUpper_y() + "," + textArea.getLower_x() + "," + textArea.getLower_y() + "," + (int) textArea.getWidth() + "," + textArea.getHeight());
+                rect = new Rectangle(textArea.getUpper_x(), textArea.getUpper_y(), (int) textArea.getWidth(), textArea.getHeight());
+
+                if (croppedString.length() > 0 && isFoundWord(Configuration.REGEX_FIG2, croppedString)) {
+                    fig_number = checkFontStyle(Configuration.REGEX_FIG2, croppedString, rect, WordAppendArr, pos, 0);
+                    System.out.println("Fig_number : " + fig_number);
+                    ImageRename ir = new ImageRename(Configuration.REGEX_FIG2, filename.getParent().toString(), original_imgName.get(index), fig_number);
+                }
+                new_pos_y = new_pos_y + Configuration.CROPPED_AREA_WIDTH;
+            } while (new_pos_y <= Configuration.PAGE_SIZE_A4[1] && fig_number.length() == 0);
+
+            new_pos_y = pos_y;
+            new_pos_x = 0;
+            croppedString = "";
+
+            //Right
+            if (fig_number.length() == 0) {
+                do {
+                    ExtractPageContentArea textArea = new ExtractPageContentArea(filename.toString(), page_num, (int) new_pos_x, (int) new_pos_y + Configuration.CROPPED_AREA_WIDTH, (int) Configuration.PAGE_SIZE_A4[0], (int) new_pos_y);
+                    croppedString = textArea.getTextCropped().trim();
+//                    System.out.println("2 && " + textArea.getUpper_x() + "," + textArea.getUpper_y() + "," + textArea.getLower_x() + "," + textArea.getLower_y() + "," + (int) textArea.getWidth() + "," + textArea.getHeight());
+                    rect = new Rectangle(textArea.getUpper_x(), textArea.getUpper_y(), (int) textArea.getWidth(), textArea.getHeight());
+
+                    if (croppedString.length() > 0 && isFoundWord(Configuration.REGEX_FIG2, croppedString)) {
+                        fig_number = checkFontStyle(Configuration.REGEX_FIG2, croppedString, rect, WordAppendArr, pos, 1);
+                        System.out.println("Fig_number : " + fig_number);
+                        ImageRename ir = new ImageRename(Configuration.REGEX_FIG2, filename.getParent().toString(), original_imgName.get(index), fig_number);
+                    }
+                    new_pos_y = new_pos_y + Configuration.CROPPED_AREA_WIDTH;
+                } while (new_pos_y <= Configuration.PAGE_SIZE_A4[1] && fig_number.length() == 0);
+
+            }
         }
     }
 
@@ -125,7 +169,7 @@ public class DetectFigureName {
 //            System.out.println(croppedString + "\n###################################\n");
 
             if (croppedString.length() > 0 && isFoundWord(Configuration.REGEX_FIG, croppedString)) {
-                fig_number = checkFontStyle(Configuration.REGEX_FIG, croppedString, rect, WordAppendArr, pos);
+                fig_number = checkFontStyle(Configuration.REGEX_FIG, croppedString, rect, WordAppendArr, pos, 0);
                 System.out.println("Fig_number : " + fig_number);
                 ImageRename ir = new ImageRename(Configuration.REGEX_FIG, filename.getParent().toString(), original_imgName.get(index), fig_number);
             } else if (croppedString.length() > 0 && !isFoundWord(Configuration.REGEX_FIG, croppedString)) {
@@ -146,11 +190,11 @@ public class DetectFigureName {
                 new_pos_x = center_line;
                 ExtractPageContentArea textArea = new ExtractPageContentArea(filename.toString(), page_num, (int) new_pos_x, (int) new_pos_y + Configuration.CROPPED_AREA_WIDTH, (int) Configuration.PAGE_SIZE_A4[0], (int) new_pos_y);
                 croppedString = textArea.getTextCropped().trim();
-                System.out.println("2 && " + textArea.getUpper_x() + "," + textArea.getUpper_y() + "," + textArea.getLower_x() + "," + textArea.getLower_y() + "," + (int) textArea.getWidth() + "," + textArea.getHeight());
+//                System.out.println("2 && " + textArea.getUpper_x() + "," + textArea.getUpper_y() + "," + textArea.getLower_x() + "," + textArea.getLower_y() + "," + (int) textArea.getWidth() + "," + textArea.getHeight());
                 rect = new Rectangle(textArea.getUpper_x(), textArea.getUpper_y(), (int) textArea.getWidth(), textArea.getHeight());
 
                 if (croppedString.length() > 0 && isFoundWord(Configuration.REGEX_FIG2, croppedString)) {
-                    fig_number = checkFontStyle(Configuration.REGEX_FIG2, croppedString, rect, WordAppendArr, pos);
+                    fig_number = checkFontStyle(Configuration.REGEX_FIG2, croppedString, rect, WordAppendArr, pos, 0);
                     System.out.println("Fig_number : " + fig_number);
                     ImageRename ir = new ImageRename(Configuration.REGEX_FIG2, filename.getParent().toString(), original_imgName.get(index), fig_number);
                 }
@@ -161,9 +205,7 @@ public class DetectFigureName {
 
     public void printOut_MapArr(ArrayList<HashMap> MapArr) {
         for (Map ele : MapArr) {
-
             Iterator<String> keySetIterator = ele.keySet().iterator();
-
             while (keySetIterator.hasNext()) {
                 String key = keySetIterator.next();
                 System.out.println("\nkey: " + key + " value: " + ele.get(key));
@@ -172,7 +214,7 @@ public class DetectFigureName {
     }
 
     //เอาค่า rect ที่จับคำที่ต้องการได้ มาใช้ 
-    public String checkFontStyle(String reg, String croppedString, Rectangle rect, ArrayList<HashMap> WordAppendArr, double[] pos) throws IOException {
+    public String checkFontStyle(String reg, String croppedString, Rectangle rect, ArrayList<HashMap> WordAppendArr, double[] pos, int num) throws IOException {
         String words_ele = "";
         //printOut_MapArr(WordAppendArr);
         WordMatch = new ArrayList<HashMap>();
@@ -203,23 +245,26 @@ public class DetectFigureName {
 //                System.out.println("Case1");
                 chk_con = 1;
                 index_arr.add(WordAppendArr.indexOf(wordApp));
-                break;
+                if (num == 0) {
+                    break;
+                }
             } else if (word_posX >= rect.x && word_posY <= rect.y && isFoundWord(reg, words_ele)) {
                 WordMatch.add(wordApp);
                 fontBase_Fig.add(Configuration.FONT_BASE_KEY);
 //                System.out.println("Case2");
                 chk_con = 2;
                 index_arr.add(WordAppendArr.indexOf(wordApp));
-                break;
+                if (num == 0) {
+                    break;
+                }
             }
-
         }
 
         removeUsedEle(WordAppendArr, index_arr);
-        
+
         Collections.sort(fontBase_Fig);
         fontBase_Fig_set.addAll(fontBase_Fig);
-        
+
         //เอาแค่ตัวเดียวคือตัวแรก
         if (WordMatch.size() > 1) {
             words_ele = WordMatch.get(0).get(Configuration.CHARATER_KEY).toString();
