@@ -121,7 +121,7 @@ public class DetectFigureName {
                 rect = new Rectangle(textArea.getUpper_x(), textArea.getUpper_y(), (int) textArea.getWidth(), textArea.getHeight());
 
                 if (croppedString.length() > 0 && isFoundWord(Configuration.REGEX_FIG2, croppedString)) {
-                    fig_number = checkFontStyle(Configuration.REGEX_FIG2, croppedString, rect, WordAppendArr, pos, 0);
+                    fig_number = checkFontStyle(Configuration.REGEX_FIG2, croppedString, rect, WordAppendArr, pos, 1);
                     System.out.println("Fig_number : " + fig_number);
                     ImageRename ir = new ImageRename(Configuration.REGEX_FIG2, filename.getParent().toString(), original_imgName.get(index), fig_number);
                 }
@@ -194,7 +194,7 @@ public class DetectFigureName {
                 rect = new Rectangle(textArea.getUpper_x(), textArea.getUpper_y(), (int) textArea.getWidth(), textArea.getHeight());
 
                 if (croppedString.length() > 0 && isFoundWord(Configuration.REGEX_FIG2, croppedString)) {
-                    fig_number = checkFontStyle(Configuration.REGEX_FIG2, croppedString, rect, WordAppendArr, pos, 0);
+                    fig_number = checkFontStyle(Configuration.REGEX_FIG2, croppedString, rect, WordAppendArr, pos, 1);
                     System.out.println("Fig_number : " + fig_number);
                     ImageRename ir = new ImageRename(Configuration.REGEX_FIG2, filename.getParent().toString(), original_imgName.get(index), fig_number);
                 }
