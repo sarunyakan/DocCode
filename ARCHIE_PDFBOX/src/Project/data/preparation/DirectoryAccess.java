@@ -1,7 +1,7 @@
 /*
  * Access to directories anf sub directories
  */
-package SettingUp;
+package Project.data.preparation;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,12 +17,26 @@ public class DirectoryAccess {
 
     private ArrayList<Path> filelist = new ArrayList<Path>();
 
+    public DirectoryAccess() throws IOException {
+
+    }
+
     public DirectoryAccess(String path) throws IOException {
         PathWalk(path);
     }
+
     /*
      * Read path and filename in directories and subdirectories
      */
+    public void PathWalkImage(String path) throws IOException {
+        
+        Files.walk(Paths.get(path)).forEach(filePath -> {
+            if (Files.isRegularFile(filePath) && filePath.getParent().endsWith("IMG")) {
+                getFilelist().add(filePath);
+            }
+        });
+        setFilelist(filelist);
+    }
 
     public void PathWalk(String path) throws IOException {
         Files.walk(Paths.get(path)).forEach(filePath -> {

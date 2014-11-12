@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package SettingUp;
+package Project.data.preparation;
 
 import java.io.File;
 import java.util.regex.Matcher;
@@ -44,9 +44,12 @@ public class ImageRename {
         newFile = new File(pathName + ori_imageName.replace("cover", validString.replace(".", "")).replace(" ", ""));
 //        System.out.println("OLD FIlE : "+file.toString());
 //        System.out.println("New File : "+newFile.toString());
+
         if (!newFile.exists()) {
+
             if (file.exists()) {
                 renamed = file.renameTo(newFile);
+
             }
             if (renamed) {
             } else {

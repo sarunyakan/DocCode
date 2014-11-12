@@ -1,25 +1,30 @@
 /*
  * This page is a configuration file. All constants will be placed here.
  */
-package SettingUp;
+package Project.data.preparation;
 
 /**
  * @author fang
  */
 public class Configuration {
 
-    public static final String PATH_DIR = "E:/Doctoral_Research/Source/PDF/";
+    //-------SOURCE PATH---------------------
+    public static final String PATH_DIR = "E:/Doctoral_Research/Source/PDF/02/00/";
+
+    //-------DATABASE CONFIGURATION---------------------
     public static final String DANAME = "ARCHIE";
     public static final String USERNAME = "fang";
     public static final String PASSWORD = "fang";
-    public static final int SWITCH_XML_MODE = 1;
+
+    //-------IMAGE EXTRACTION---------------------
     public static final double[] PAGE_SIZE_A4 = {595.0, 795.0};
     public static final String REGEX_FIG = "(^(F|f)igures?\\.? {0,1}\\d*\\.?|^(F|f)igs?\\.? {0,1}\\d*\\.?)";
     public static final String REGEX_FIG2 = "((^|\n)(F|f)igures?\\.? {0,1}\\d*\\.?|(^|\n)(F|f)igs?\\.? {0,1}\\d*\\.?)";
     public static final String REGEX_FIG3 = "(^?(F|f)igures?\\.? {0,1}\\d*\\.?|^?(F|f)igs?\\.? {0,1}\\d*\\.?)";
-     public static final String REGEX_FIG4 = "((^|\n)?(F|f)igures?\\.? {0,1}\\d*\\.?|(^|\n)?(F|f)igs?\\.? {0,1}\\d*\\.?)";
+    public static final String REGEX_FIG4 = "((^|\n)?(F|f)igures?\\.? {0,1}\\d*\\.?|(^|\n)?(F|f)igs?\\.? {0,1}\\d*\\.?)";
     public static final int CROPPED_AREA_WIDTH = 20;
-    //Map Key
+
+    //-------MAP<KEY,VALUE>------------------
     public static final String CHARATER_KEY = "alphabet";
     public static final String POSITION_X_KEY = "position_x";
     public static final String POSITION_Y_KEY = "position_y";
@@ -28,11 +33,11 @@ public class Configuration {
     public static final String BOLD_KEY = "bold";
     public static final String BOLD_AND_ITALIC_KEY = "bold_and_italic";
 
-    //XML Extraction constants
+    //-------XML EXTRACTION---------------
+    public static final int SWITCH_XML_MODE = 1;
     public static final String XML_PATH = "E:/Doctoral_Research/Source/XML/";
     public static final String[] XML_JOURNAL_TITLE = {"/article/front/journal-meta/journal-title", "/article/front/journal-meta/journal-title-group/journal-title"};
     public static final String[] XML_JOURNAL_ID = {"/article/front/journal-meta/journal-id[@journal-id-type='nlm-ta']"};
-
     public static final String[] XML_ARTICLE_TITLE = {"/article/front/article-meta/title-group/article-title[text()]"};
     public static final String[] XML_ARTICLE_KW = {"/article/front/article-meta/kwd-group/kwd[text()]"};
     public static final String[] XML_ARTICLE_PMID = {"article/front/article-meta/article-id[@pub-id-type='pmid'][text()]"};
@@ -43,4 +48,26 @@ public class Configuration {
     public static final String[] XML_ARTICLE_PARAGRAPH = {"article/body//sec//descendant-or-self::p[text()][not(parent::caption)]"};
     public static final String[] XML_AUTHOR = {"article/front/article-meta/contrib-group//contrib[@contrib-type='author']/name/descendant-or-self::*[text()]"};
 
+    //-------TABLE NAME---------------------
+    public static final String FIGURE_TBL = "Figure";
+    public static final String ARTICLE_IMAGE_TBL = "Article_image";
+    public static final String CLUSTER_IMAGE_TBL = "Cluster_image";
+    public static final String KEYWORD_OF_CLUSTER_TBL = "Keyword_of_cluster";
+    public static final String CLUSTER_KEYWORD_TBL = "Cluster_keyword";
+    public static final String IMAGE_OF_PARAGRAPH_TBL = "Image_of_paragraph";
+    public static final String ARTICLE_PARAGRAPH_TBL = "Article_paragraph";
+    public static final String ARTICLE_TBL = "Article";
+    public static final String SUBJECT_TBL = "Subject";
+    public static final String JOURNAL_TBL = "Journal";
+    public static final String FILE_PATH_TBL = "File_path";
+    public static final String AUTHOR_OF_ARTICLE_TBL = "Author_of_article";
+    public static final String KEYWORD_OF_ARTICLE_TBL = "Keyword_of_article";
+    public static final String DOCUMENT_KEYWORD_TBL = "Document_keyword";
+    public static final String AUTHOR_TBL = "Author";
+        
+    //-------TABLE OBJECT---------------------
+    public static final String ARTICLE_IMAGE_SEQ = "article_image_id_seq";
+    public static final String ARTICLE_IMAGE_PK = "AI";
+    public static final String ARTICLE_IMAGE_RESET = "OFF";
+    public static final String FIGURE_IMAGE_PK = "Figure";
 }

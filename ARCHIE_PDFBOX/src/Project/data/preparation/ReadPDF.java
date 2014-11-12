@@ -1,13 +1,14 @@
 /*
  * Read PDF files and extract to plain text by itext libraries
  */
-package SettingUp;
+package Project.data.preparation;
 
 import com.itextpdf.text.DocumentException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import org.apache.pdfbox.exceptions.COSVisitorException;
@@ -21,6 +22,8 @@ import org.xml.sax.SAXException;
 public class ReadPDF {
 
     private Path filename = null;
+
+    //-------------[READPDF - IMAGE EXTRACTION]-----------------------------
 
     @SuppressWarnings("empty-statement")
     public ReadPDF(Path filename) throws IOException, DocumentException, CryptographyException, COSVisitorException {
@@ -36,13 +39,14 @@ public class ReadPDF {
 
     }
 
-    //Read XML
+    //-------------[READPDF - XML EXTRACTION]-----------------------------
     public ReadPDF(Path filename, int i) throws IOException, DocumentException, ParserConfigurationException, SAXException, XPathExpressionException, FileNotFoundException, InterruptedException {
         if (filename.getFileName().toString().endsWith("nxml")) {
             TextExtraction textExtraction = new TextExtraction(filename);
         }
     }
 
+    //-------------[CREATE AN NEW DIRECTORY]-----------------------------
     private String CreateEmptyFolder(String FolderName) {
         String filenamePath = this.filename.getParent() + "\\" + FolderName;
         File theDir = new File(filenamePath);
@@ -61,7 +65,12 @@ public class ReadPDF {
         return "Path not found";
     }
 
+    //-------------[cHECK IF THE PATH HAS ALREADY EXISTED]-----------------------------
     private boolean CheckPathAccess(Path path, String compareStr) {
         return path.getParent().endsWith(compareStr);
     }
+
+    /**
+     * @return the newName
+     */
 }

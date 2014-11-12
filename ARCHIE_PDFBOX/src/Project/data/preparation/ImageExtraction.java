@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package SettingUp;
+package Project.data.preparation;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -42,10 +42,12 @@ public class ImageExtraction {
     public ImageExtraction(Path filename, String imgpath) throws IOException, CryptographyException, COSVisitorException {
         this.filename = filename;
         this.imgpath = imgpath;
+
         oldFile = new File(filename.toString());
         extractImages(filename.toString(), imgpath.toString());
     }
 
+    //-------------[EXTRACT IMAGES AND THEIR LOCATION AND SIZE]-----------------------------
     public void extractImages(String sourceDir, String destinationDir) throws IOException, CryptographyException, COSVisitorException {
         PDDocument document = null;
         double[] size;
@@ -82,13 +84,11 @@ public class ImageExtraction {
                         System.out.println("Page Number : " + pageNum + "\t" + imgName);
                         pdxObjectImage.write2file(destinationDir + imgName);
 
-                        //ชื่อของรูปภาพ เรียงลำดับการ extract แล้ว
                         original_imgName.add(imgName + "." + pdxObjectImage.getSuffix());
                         size = new double[]{pdxObjectImage.getWidth(), pdxObjectImage.getHeight()};
                         size_xy_ordered.add(size);
                         totalImages++;
                     }
-                    //********************************************************************
                     //Start for detect figure name for image renaming
                     printer = new PrintImageLocation(page);
                     location_xy = printer.getLocation_xy();
@@ -96,9 +96,7 @@ public class ImageExtraction {
                     RearrangeImageOrder(location_xy, size_xy_tmp, size_xy_ordered);
                     //PrinttoString();
                     DetectFigureName detectFig = new DetectFigureName(original_imgName, filename, pageNum, page, location_ordered, size_xy_ordered);
-                    //********************************************************************
                 }
-
             }
         } else {
             System.err.println("File not exists");
@@ -115,7 +113,6 @@ public class ImageExtraction {
         if (size_tmp.size() == size.size()) {
             for (int i = 0; i < size_tmp.size(); i++) {
                 if ((size_tmp.get(i)[0] != size.get(i)[0]) || (size_tmp.get(i)[1] != size.get(i)[1])) {
-                    //=============
                     int index = FindMatchItem(size_tmp, size.get(i));
                     location_ordered.add(location.get(index));
                 } else {
@@ -123,10 +120,8 @@ public class ImageExtraction {
                 }
             }
         } else {
-            //System.out.println(size_tmp.size() + " -- " + size.size());
             System.err.println("Size of size_tmp.size() != size.size() >> CHECK!!!!");
         }
-
 //        System.out.println(location_ordered);
 //        System.out.println(size_xy_ordered);
     }
@@ -141,7 +136,6 @@ public class ImageExtraction {
             }
         }
         return index;
-
     }
 
     public void PrinttoString() {
@@ -157,4 +151,5 @@ public class ImageExtraction {
         }
         System.out.println("");
     }
+
 }

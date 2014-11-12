@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package SettingUp;
+package Project.data.preparation;
 
 import java.awt.Rectangle;
 import java.io.IOException;
@@ -94,7 +94,7 @@ public class DetectFigureName {
         double new_pos_y = pos_y;
         double new_pos_x = 0;
         String croppedString = "";
-        System.out.println(original_imgName.get(index) + " : POS X -> " + pos_x + " : POS Y -> " + pos_y);
+//        System.out.println(original_imgName.get(index) + " : POS X -> " + pos_x + " : POS Y -> " + pos_y);
         //left + bottom
         do {
             ExtractPageContentArea textArea = new ExtractPageContentArea(filename.toString(), page_num, (int) new_pos_x, (int) new_pos_y, (int) Configuration.PAGE_SIZE_A4[0] / 2, (int) new_pos_y - Configuration.CROPPED_AREA_WIDTH);
@@ -112,7 +112,6 @@ public class DetectFigureName {
             }
             new_pos_y = new_pos_y - Configuration.CROPPED_AREA_WIDTH;
         } while (new_pos_y >= 0 && fig_number.length() == 0);
-
         new_pos_y = pos_y;
         new_pos_x = 0;
         croppedString = "";
@@ -130,6 +129,7 @@ public class DetectFigureName {
                     fig_number = checkFontStyle(regex2, croppedString, rect, WordAppendArr, pos, 1);
                     System.out.println("Fig_number : " + fig_number);
                     ImageRename ir = new ImageRename(regex2, filename.getParent().toString(), original_imgName.get(index), fig_number);
+
                 }
                 new_pos_y = new_pos_y + Configuration.CROPPED_AREA_WIDTH;
             } while (new_pos_y <= Configuration.PAGE_SIZE_A4[1] && fig_number.length() == 0);
@@ -138,6 +138,7 @@ public class DetectFigureName {
             new_pos_x = 0;
             croppedString = "";
         }
+
         //Right
         if (fig_number.length() == 0) {
             do {
@@ -145,8 +146,8 @@ public class DetectFigureName {
                 croppedString = textArea.getTextCropped().trim();
 //                    System.out.println("2 && " + textArea.getUpper_x() + "," + textArea.getUpper_y() + "," + textArea.getLower_x() + "," + textArea.getLower_y() + "," + (int) textArea.getWidth() + "," + textArea.getHeight());
                 rect = new Rectangle(textArea.getUpper_x(), textArea.getUpper_y(), (int) textArea.getWidth(), textArea.getHeight());
-                System.out.println(rect);
-                System.out.println("...." + croppedString);
+//                System.out.println(rect);
+//                System.out.println("...." + croppedString);
                 if (croppedString.length() > 0 && isFoundWord(regex2, croppedString)) {
                     fig_number = checkFontStyle(regex2, croppedString, rect, WordAppendArr, pos, 1);
                     System.out.println("Fig_number : " + fig_number);
@@ -154,7 +155,6 @@ public class DetectFigureName {
                 }
                 new_pos_y = new_pos_y + Configuration.CROPPED_AREA_WIDTH;
             } while (new_pos_y <= Configuration.PAGE_SIZE_A4[1] && fig_number.length() == 0);
-
         }
 
         if (fig_number.length() == 0 && chk == 0) {
@@ -171,7 +171,7 @@ public class DetectFigureName {
         double new_pos_y = pos_y;
         double new_pos_x = 0;
         String croppedString = "";
-        System.out.println(original_imgName.get(index) + " : POS X -> " + pos_x + " : POS Y -> " + pos_y);
+//        System.out.println(original_imgName.get(index) + " : POS X -> " + pos_x + " : POS Y -> " + pos_y);
 
 //====================================================================================================================
         //Run from the first of image position down to end of page
@@ -180,10 +180,6 @@ public class DetectFigureName {
             ExtractPageContentArea textArea = new ExtractPageContentArea(filename.toString(), page_num, (int) new_pos_x, (int) new_pos_y, (int) Configuration.PAGE_SIZE_A4[0], (int) new_pos_y - Configuration.CROPPED_AREA_WIDTH);
             croppedString = textArea.getTextCropped();
             rect = new Rectangle(textArea.getUpper_x(), textArea.getUpper_y(), (int) textArea.getWidth(), textArea.getHeight());
-//            System.out.println("1 && " + textArea.getUpper_x() + "," + textArea.getUpper_y() + "," + textArea.getLower_x() + "," + textArea.getLower_y() + "," + (int) textArea.getWidth() + "," + textArea.getHeight());
-//            System.out.println(croppedString + "\n###################################\n");
-//            System.out.println(rect);
-//            System.out.println("...." + croppedString);
             if (croppedString.length() > 0 && isFoundWord(regex, croppedString)) {
                 fig_number = checkFontStyle(regex, croppedString, rect, WordAppendArr, pos, 0);
                 System.out.println("Fig_number : " + fig_number);
@@ -194,7 +190,6 @@ public class DetectFigureName {
 
             new_pos_y = new_pos_y - Configuration.CROPPED_AREA_WIDTH;
         } while (new_pos_y >= 0 && fig_number.length() == 0);
-
         //=================================================================================
         new_pos_y = pos_y;
         new_pos_x = 0;
