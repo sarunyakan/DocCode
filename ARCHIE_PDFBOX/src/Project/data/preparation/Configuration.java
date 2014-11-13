@@ -70,5 +70,5 @@ public class Configuration {
     public static final String ARTICLE_IMAGE_SEQ = "article_image_id_seq";
     public static final String ARTICLE_IMAGE_PK = "AI";
     public static final String ARTICLE_IMAGE_RESET = "OFF";
-    public static final String FIGURE_IMAGE_PK = "Figure";
+    public static final String FIGURE_IMAGE_PK = "figure";
 }
