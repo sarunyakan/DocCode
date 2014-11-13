@@ -42,31 +42,31 @@ public class MainClass {
         
         
         //---------------[READ FILE : XML]----------------------
-//        filelist = new DirectoryAccess(Configuration.XML_PATH).getFilelist();
-//        for (Path filename : filelist) {
-//            System.out.println(filename);
-//            new ReadPDF(filename, Configuration.SWITCH_XML_MODE);
-//        }
+        filelist = new DirectoryAccess(Configuration.XML_PATH).getFilelist();
+        for (Path filename : filelist) {
+            System.out.println(filename);
+            new ReadPDF(filename, Configuration.SWITCH_XML_MODE);
+        }
         
         
         //---------------[Add image description into database]----------------------
-        DatabaseConnect db = new DatabaseConnect();
-        SQL_query sql = null;
-
-        //------[FOR Article_image PATH]------------
-        DirectoryAccess dirImg = new DirectoryAccess();
-        dirImg.PathWalkImage(Configuration.PATH_DIR);
-        imgList = dirImg.getFilelist();
-
-        //------[INSERT DATA INTO DATABASE]---------
-        sql = new SQL_query(db.getConnection());            //Figure
-        sql = new SQL_query(db.getConnection(), imgList);   //Article_image
-
-        //-----------------[RESET SEQUENCE]-------------------------
-        if (Configuration.ARTICLE_IMAGE_RESET.equalsIgnoreCase("on")) {
-            sql = new SQL_query();
-            sql.resetSeq(db.getConnection(), Configuration.ARTICLE_IMAGE_SEQ);
-            sql.truncateTable(db.getConnection(), Configuration.ARTICLE_IMAGE_TBL);
-        }
+//        DatabaseConnect db = new DatabaseConnect();
+//        SQL_query sql = null;
+//
+//        //------[FOR Article_image PATH]------------
+//        DirectoryAccess dirImg = new DirectoryAccess();
+//        dirImg.PathWalkImage(Configuration.PATH_DIR);
+//        imgList = dirImg.getFilelist();
+//
+//        //------[INSERT DATA INTO DATABASE]---------
+//        sql = new SQL_query(db.getConnection());            //Figure
+//        sql = new SQL_query(db.getConnection(), imgList);   //Article_image
+//
+//        //-----------------[RESET SEQUENCE]-------------------------
+//        if (Configuration.ARTICLE_IMAGE_RESET.equalsIgnoreCase("on")) {
+//            sql = new SQL_query();
+//            sql.resetSeq(db.getConnection(), Configuration.ARTICLE_IMAGE_SEQ);
+//            sql.truncateTable(db.getConnection(), Configuration.ARTICLE_IMAGE_TBL);
+//        }
     }
 }

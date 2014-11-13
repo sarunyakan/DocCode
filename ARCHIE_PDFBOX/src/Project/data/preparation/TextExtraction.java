@@ -58,7 +58,6 @@ public class TextExtraction {
 
         ExtractArticleXML("JOURNAL-TITLE", Configuration.XML_JOURNAL_TITLE);
         ExtractArticleXML("JOURNAL-ID", Configuration.XML_JOURNAL_ID);
-
         ExtractArticleXML("ARTICLE-TITLE", Configuration.XML_ARTICLE_TITLE);
         ExtractArticleXML("AUTHOR", Configuration.XML_AUTHOR);
         ExtractArticleXML("PMID", Configuration.XML_ARTICLE_PMID);
@@ -94,7 +93,7 @@ public class TextExtraction {
 
         String str = item.getFirstChild().getNodeValue();
         if (str != null) {
-            String pattern = "((F|f)igs?\\.?.{0,1}[\\d+| ]\\.?|(F|f)igures?\\.?.{0,1}[\\d+| ]\\.?)";
+            String pattern = Configuration.REGEX_FIG_PARA;
             Pattern r = Pattern.compile(pattern);
             Matcher m = r.matcher(str);
             if (m.find()) {
@@ -128,6 +127,10 @@ public class TextExtraction {
             line = matcher.replaceAll("");
 
         }
+
+        Pattern pattern = Pattern.compile("&#x000a0;");
+        Matcher matcher = pattern.matcher(line);
+        line = matcher.replaceAll("");
 
         sentence = line;
         return sentence;

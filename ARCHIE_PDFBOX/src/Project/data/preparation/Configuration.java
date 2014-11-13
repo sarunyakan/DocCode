@@ -19,9 +19,10 @@ public class Configuration {
     //-------IMAGE EXTRACTION---------------------
     public static final double[] PAGE_SIZE_A4 = {595.0, 795.0};
     public static final String REGEX_FIG = "(^(F|f)igures?\\.? {0,1}\\d*\\.?|^(F|f)igs?\\.? {0,1}\\d*\\.?)";
-    public static final String REGEX_FIG2 = "((^|\n)(F|f)igures?\\.? {0,1}\\d*\\.?|(^|\n)(F|f)igs?\\.? {0,1}\\d*\\.?)";
+    public static final String REGEX_FIG2 = "((^|\n*)(F|f)igures?\\.? {0,1}\\d*\\.?|(^|\n*)(F|f)igs?\\.? {0,1}\\d*\\.?)";
     public static final String REGEX_FIG3 = "(^?(F|f)igures?\\.? {0,1}\\d*\\.?|^?(F|f)igs?\\.? {0,1}\\d*\\.?)";
     public static final String REGEX_FIG4 = "((^|\n)?(F|f)igures?\\.? {0,1}\\d*\\.?|(^|\n)?(F|f)igs?\\.? {0,1}\\d*\\.?)";
+    public static final String REGEX_FIG_PARA = "((F|f)igures?\\.? {0,1}\\d+\\.?|(F|f)igs?\\.? {0,1}\\d+\\.?)";
     public static final int CROPPED_AREA_WIDTH = 20;
 
     //-------MAP<KEY,VALUE>------------------
