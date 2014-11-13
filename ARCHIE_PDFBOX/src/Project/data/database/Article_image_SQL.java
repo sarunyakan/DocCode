@@ -18,7 +18,7 @@ import java.util.ArrayList;
  *
  * @author fang
  */
-public class Article_image_SQL extends SQL_query {
+public class Article_image_SQL extends SQL_operation {
 
     private Statement stmt_article_image = null;
     private Connection conn = null;
@@ -57,11 +57,11 @@ public class Article_image_SQL extends SQL_query {
         String fig_id_tmp = FigID_attribute(img_name);
         String fig_id = appendQuote(fig_id_tmp);
         String cluster_id = appendQuote(null);
-
+        String caption_id = appendQuote(null);
         int seq = getNextval(Configuration.ARTICLE_IMAGE_SEQ, stmt_article_image);
         String aticleImage_pk = appendQuote(Configuration.ARTICLE_IMAGE_PK + seq);
 
-        val_str = aticleImage_pk + "," + fig_id + "," + img_filename + "," + img_path + "," + cluster_id + "";
+        val_str = aticleImage_pk + "," + fig_id + "," + img_filename + "," + img_path + "," + cluster_id + "," + caption_id;
 
         return val_str;
     }

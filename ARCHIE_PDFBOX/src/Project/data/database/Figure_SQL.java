@@ -17,7 +17,7 @@ import java.util.ArrayList;
  *
  * @author fang
  */
-public class Figure_SQL extends SQL_query {
+public class Figure_SQL extends SQL_operation {
 
     private Statement stmt_figure = null;
     private Connection conn = null;

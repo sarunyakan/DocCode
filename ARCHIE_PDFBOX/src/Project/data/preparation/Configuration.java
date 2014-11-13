@@ -63,12 +63,16 @@ public class Configuration {
     public static final String FILE_PATH_TBL = "File_path";
     public static final String AUTHOR_OF_ARTICLE_TBL = "Author_of_article";
     public static final String KEYWORD_OF_ARTICLE_TBL = "Keyword_of_article";
-    public static final String DOCUMENT_KEYWORD_TBL = "Document_keyword";
+    public static final String ARTICLE_KEYWORD_TBL = "Article_keyword";
     public static final String AUTHOR_TBL = "Author";
-        
+
     //-------TABLE OBJECT---------------------
     public static final String ARTICLE_IMAGE_SEQ = "article_image_id_seq";
     public static final String ARTICLE_IMAGE_PK = "AI";
     public static final String ARTICLE_IMAGE_RESET = "OFF";
+    
     public static final String FIGURE_IMAGE_PK = "figure";
+    
+    public static final String ARTICLE_KEYWORD_SEQ = "article_keyword_id_seq";
+    public static final String ARTICLE_KEYWORD_PK = "AK";
 }

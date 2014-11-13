@@ -19,7 +19,7 @@ import java.util.HashMap;
  *
  * @author fang
  */
-public class SQL_query {
+public class SQL_operation {
 
     private HashMap<String, String> map_value = null;
     private Connection conn = null;
@@ -29,17 +29,17 @@ public class SQL_query {
     private ArrayList<String> value = null;
     private ArrayList<Path> imgList = new ArrayList<Path>();
 
-    public SQL_query() {
+    public SQL_operation() {
     }
 
     //สร้างข้อมูลที่รันเองได้เลย
-    public SQL_query(Connection conn) throws SQLException {
+    public SQL_operation(Connection conn) throws SQLException {
         //Journal, File_path, Subject, Figure
         this.conn = conn;
         Figure_SQL fig_sql = new Figure_SQL(conn, Configuration.FIGURE_TBL);
     }
 
-    public SQL_query(Connection conn, ArrayList<Path> imgList) throws SQLException {
+    public SQL_operation(Connection conn, ArrayList<Path> imgList) throws SQLException {
         this.conn = conn;
         this.imgList = imgList;
         Article_image_SQL art_img_sql = new Article_image_SQL(conn, Configuration.ARTICLE_IMAGE_TBL, imgList);

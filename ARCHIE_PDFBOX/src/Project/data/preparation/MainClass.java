@@ -51,7 +51,7 @@ public class MainClass {
         
         //---------------[Add image description into database]----------------------
         DatabaseConnect db = new DatabaseConnect();
-        SQL_query sql = null;
+        SQL_operation sql = null;
 
         //------[FOR Article_image PATH]------------
         DirectoryAccess dirImg = new DirectoryAccess();
@@ -59,14 +59,14 @@ public class MainClass {
         imgList = dirImg.getFilelist();
 
         //------[INSERT DATA INTO DATABASE]---------
-        sql = new SQL_query(db.getConnection());            //Figure
-        sql = new SQL_query(db.getConnection(), imgList);   //Article_image
+//        sql = new SQL_query(db.getConnection());            //Figure
+        sql = new SQL_operation(db.getConnection(), imgList);   //Article_image
 //
 //        //-----------------[RESET SEQUENCE]-------------------------
-        if (Configuration.ARTICLE_IMAGE_RESET.equalsIgnoreCase("on")) {
-            sql = new SQL_query();
-            sql.resetSeq(db.getConnection(), Configuration.ARTICLE_IMAGE_SEQ);
-            sql.truncateTable(db.getConnection(), Configuration.ARTICLE_IMAGE_TBL);
-        }
+//        if (Configuration.ARTICLE_IMAGE_RESET.equalsIgnoreCase("on")) {
+//            sql = new SQL_query();
+//            sql.resetSeq(db.getConnection(), Configuration.ARTICLE_IMAGE_SEQ);
+//            sql.truncateTable(db.getConnection(), Configuration.ARTICLE_IMAGE_TBL);
+//        }
     }
 }
