@@ -39,19 +39,34 @@ public class MainClass {
 //        for (Path filename : filelist) {
 //            readpdf = new ReadPDF(filename);
 //        }
-        
-        
-        //---------------[READ FILE : XML]----------------------
-//        filelist = new DirectoryAccess(Configuration.XML_PATH).getFilelist();
-//        for (Path filename : filelist) {
-//            System.out.println(filename);
-//            new ReadPDF(filename, Configuration.SWITCH_XML_MODE);
-//        }
-        
-        
         //---------------[Add image description into database]----------------------
         DatabaseConnect db = new DatabaseConnect();
         SQL_operation sql = null;
+
+        //-----------------[RESET SEQUENCE]-------------------------------------------------------------------------
+        if (Configuration.RESET.equalsIgnoreCase("on")) {
+            sql = new SQL_operation();
+            sql.truncateTable(db.getConnection(), Configuration.FIGURE_TBL);
+
+            sql.resetSeq(db.getConnection(), Configuration.ARTICLE_IMAGE_SEQ);
+            sql.truncateTable(db.getConnection(), Configuration.ARTICLE_IMAGE_TBL);
+
+            sql.resetSeq(db.getConnection(), Configuration.SUBJECT_SEQ);
+            sql.truncateTable(db.getConnection(), Configuration.SUBJECT_TBL);
+
+            sql.resetSeq(db.getConnection(), Configuration.JOURNAL_SEQ);
+            sql.truncateTable(db.getConnection(), Configuration.JOURNAL_TBL);
+
+            sql.resetSeq(db.getConnection(), Configuration.FILEPATH_SEQ);
+            sql.truncateTable(db.getConnection(), Configuration.FILE_PATH_TBL);
+
+            sql.resetSeq(db.getConnection(), Configuration.AUTHOR_SEQ);
+            sql.truncateTable(db.getConnection(), Configuration.AUTHOR_TBL);
+
+            sql.resetSeq(db.getConnection(), Configuration.ARTICLE_KEYWORD_SEQ);
+            sql.truncateTable(db.getConnection(), Configuration.ARTICLE_KEYWORD_TBL);
+        }
+        //----------------------------------------------------------------------------------------------------------
 
         //------[FOR Article_image PATH]------------
         DirectoryAccess dirImg = new DirectoryAccess();
@@ -59,14 +74,17 @@ public class MainClass {
         imgList = dirImg.getFilelist();
 
         //------[INSERT DATA INTO DATABASE]---------
-//        sql = new SQL_query(db.getConnection());            //Figure
+        sql = new SQL_operation(db.getConnection());            //Figure
         sql = new SQL_operation(db.getConnection(), imgList);   //Article_image
-//
-//        //-----------------[RESET SEQUENCE]-------------------------
-//        if (Configuration.ARTICLE_IMAGE_RESET.equalsIgnoreCase("on")) {
-//            sql = new SQL_query();
-//            sql.resetSeq(db.getConnection(), Configuration.ARTICLE_IMAGE_SEQ);
-//            sql.truncateTable(db.getConnection(), Configuration.ARTICLE_IMAGE_TBL);
-//        }
+        //---------------[READ FILE : XML]----------------------
+        filelist = new DirectoryAccess(Configuration.XML_PATH).getFilelist();
+        for (Path filename : filelist) {
+            System.out.println(filename);
+            readpdf = new ReadPDF(filename, Configuration.SWITCH_XML_MODE);
+            //------[INSERT DATA INTO DATABASE]---------
+            sql = new SQL_operation(db.getConnection(), readpdf.getTextExtraction(), readpdf.getFilename());   //SUBJECT
+
+        }
+
     }
 }

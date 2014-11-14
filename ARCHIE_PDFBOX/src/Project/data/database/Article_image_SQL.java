@@ -37,21 +37,21 @@ public class Article_image_SQL extends SQL_operation {
 
     public void Insert_Article_Image(Connection conn, String table_name, ArrayList<Path> fileList) throws SQLException {
         stmt_article_image = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        ResultSet rs = stmt_article_image.executeQuery(SelectStr(table_name));
+        ResultSet rs = stmt_article_image.executeQuery(SelectAllStr(table_name));
         ResultSetMetaData meta = rs.getMetaData();
         String att_str = Attribute_string(table_name, meta);
         String val_str = "";
         for (Path img_name : fileList) {
             if (table_name.equalsIgnoreCase(Configuration.ARTICLE_IMAGE_TBL)) {
-                val_str = AticleImage_value_string(table_name, meta, img_name, stmt_article_image);
+                val_str = ArticleImage_value_string(table_name, meta, img_name, stmt_article_image);
             }
             InsertQuery(table_name, meta, stmt_article_image, att_str, val_str);
         }
 
     }
 
-    public String AticleImage_value_string(String table_name, ResultSetMetaData meta, Path img_name, Statement stmt_article_image) throws SQLException {
-        String img_path = appendQuote(img_name.getParent().toString());
+    public String ArticleImage_value_string(String table_name, ResultSetMetaData meta, Path img_name, Statement stmt_article_image) throws SQLException {
+        String img_path = appendQuote(img_name.toString());
         String img_filename = appendQuote(img_name.getFileName().toString());
         String val_str = "";
         String fig_id_tmp = FigID_attribute(img_name);

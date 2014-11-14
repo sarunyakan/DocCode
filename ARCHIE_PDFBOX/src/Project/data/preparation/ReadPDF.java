@@ -22,7 +22,7 @@ import org.xml.sax.SAXException;
 public class ReadPDF {
 
     private Path filename = null;
-
+private TextExtraction textExtraction = null;
     //-------------[READPDF - IMAGE EXTRACTION]-----------------------------
 
     @SuppressWarnings("empty-statement")
@@ -35,6 +35,7 @@ public class ReadPDF {
             String imgPath = CreateEmptyFolder("IMG");
             String imgPathFull = imgPath + "/";
             ImageExtraction imageExtraction = new ImageExtraction(filename, imgPathFull);
+            
         }
 
     }
@@ -42,13 +43,14 @@ public class ReadPDF {
     //-------------[READPDF - XML EXTRACTION]-----------------------------
     public ReadPDF(Path filename, int i) throws IOException, DocumentException, ParserConfigurationException, SAXException, XPathExpressionException, FileNotFoundException, InterruptedException {
         if (filename.getFileName().toString().endsWith("nxml")) {
-            TextExtraction textExtraction = new TextExtraction(filename);
+            textExtraction = new TextExtraction(filename);
+//            setFilename(filename);
         }
     }
 
     //-------------[CREATE AN NEW DIRECTORY]-----------------------------
     private String CreateEmptyFolder(String FolderName) {
-        String filenamePath = this.filename.getParent() + "\\" + FolderName;
+        String filenamePath = this.getFilename().getParent() + "\\" + FolderName;
         File theDir = new File(filenamePath);
 
         // if the directory does not exist, create it
@@ -68,6 +70,34 @@ public class ReadPDF {
     //-------------[cHECK IF THE PATH HAS ALREADY EXISTED]-----------------------------
     private boolean CheckPathAccess(Path path, String compareStr) {
         return path.getParent().endsWith(compareStr);
+    }
+
+    /**
+     * @return the textExtraction
+     */
+    public TextExtraction getTextExtraction() {
+        return textExtraction;
+    }
+
+    /**
+     * @param textExtraction the textExtraction to set
+     */
+    public void setTextExtraction(TextExtraction textExtraction) {
+        this.textExtraction = textExtraction;
+    }
+
+    /**
+     * @return the filename
+     */
+    public Path getFilename() {
+        return filename;
+    }
+
+    /**
+     * @param filename the filename to set
+     */
+    public void setFilename(Path filename) {
+        this.filename = filename;
     }
 
     /**

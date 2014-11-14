@@ -45,10 +45,12 @@ public class Configuration {
     public static final String[] XML_ARTICLE_SUB = {"article/front/article-meta/article-categories/subj-group/subject[text()]"};
     public static final String[] XML_ARTICLE_PMC = {"article/front/article-meta/article-id[@pub-id-type='pmc'][text()]"};
     public static final String[] XML_ARTICLE_ABS = {"article/front/article-meta/abstract[not(@*)]//descendant::*[text()]"};
+    public static final String[] XML_ARTICLE_ABS2 = {"article/front/article-meta/abstract//descendant::*[text()]"};
     public static final String[] XML_ARTICLE_BODY_FIG = {"article/body//sec//fig//descendant::*[text()] | article/body//sec//sec//fig//descendant::*[text()] | article/floats-group//fig//descendant::*[text()] | article/body//fig//descendant::*[text()]"};
     public static final String[] XML_ARTICLE_PARAGRAPH = {"article/body//sec//descendant-or-self::p[text()][not(parent::caption)]"};
-    public static final String[] XML_AUTHOR = {"article/front/article-meta/contrib-group//contrib[@contrib-type='author']/name/descendant-or-self::*[text()]"};
-
+//    public static final String[] XML_AUTHOR = {"article/front/article-meta/contrib-group//contrib[@contrib-type='author']/name/descendant-or-self::*[text()]"};
+    public static final String[] XML_AUTHOR = {"article/front/article-meta/contrib-group//contrib[@contrib-type='author']/name/given-names[text()]"};
+    public static final String[] XML_AUTHOR2 = {"article/front/article-meta/contrib-group//contrib[@contrib-type='author']/name/surname[text()]"};
     //-------TABLE NAME---------------------
     public static final String FIGURE_TBL = "Figure";
     public static final String ARTICLE_IMAGE_TBL = "Article_image";
@@ -67,12 +69,26 @@ public class Configuration {
     public static final String AUTHOR_TBL = "Author";
 
     //-------TABLE OBJECT---------------------
+    public static final String RESET = "ON";
+
     public static final String ARTICLE_IMAGE_SEQ = "article_image_id_seq";
     public static final String ARTICLE_IMAGE_PK = "AI";
-    public static final String ARTICLE_IMAGE_RESET = "OFF";
-    
+
     public static final String FIGURE_IMAGE_PK = "figure";
-    
+
     public static final String ARTICLE_KEYWORD_SEQ = "article_keyword_id_seq";
     public static final String ARTICLE_KEYWORD_PK = "AK";
+
+    public static final String SUBJECT_PK = "S";
+    public static final String SUBJECT_SEQ = "subject_id_seq";
+
+    public static final String JOURNAL_PK = "J";
+    public static final String JOURNAL_SEQ = "journal_id_seq";
+
+    public static final String FILEPATH_PK = "FP";
+    public static final String FILEPATH_SEQ = "file_path_id_seq";
+
+    public static final String AUTHOR_PK = "A";
+    public static final String AUTHOR_SEQ = "author_id_seq";
+
 }

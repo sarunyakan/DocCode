@@ -36,7 +36,7 @@ public class Figure_SQL extends SQL_operation {
 
         stmt_figure = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
-        ResultSet rs = stmt_figure.executeQuery(SelectStr(table_name));
+        ResultSet rs = stmt_figure.executeQuery(SelectAllStr(table_name));
         ResultSetMetaData meta = rs.getMetaData();
         rs.last();
         int count = rs.getRow();
