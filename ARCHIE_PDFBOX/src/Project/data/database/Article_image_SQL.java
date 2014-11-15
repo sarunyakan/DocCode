@@ -13,6 +13,8 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -52,12 +54,15 @@ public class Article_image_SQL extends SQL_operation {
 
     public String ArticleImage_value_string(String table_name, ResultSetMetaData meta, Path img_name, Statement stmt_article_image) throws SQLException {
         String img_path = appendQuote(img_name.toString());
-        String img_filename = appendQuote(img_name.getFileName().toString());
+        String img_filename_str = img_name.getFileName().toString();
+        String img_filename = appendQuote(img_filename_str);
+
         String val_str = "";
         String fig_id_tmp = FigID_attribute(img_name);
+        String caption_id_tmp = getCaptionIDfromImgFile(img_filename_str, fig_id_tmp);
         String fig_id = appendQuote(fig_id_tmp);
         String cluster_id = appendQuote(null);
-        String caption_id = appendQuote(null);
+        String caption_id = appendQuote(caption_id_tmp);
         int seq = getNextval(Configuration.ARTICLE_IMAGE_SEQ, stmt_article_image);
         String aticleImage_pk = appendQuote(Configuration.ARTICLE_IMAGE_PK + seq);
 
@@ -80,4 +85,35 @@ public class Article_image_SQL extends SQL_operation {
         }
         return filename;
     }
+
+    public String caption_id_attribute(String filepath) throws SQLException {
+        String ID = CheckExisted_ID_Value(Configuration.IMAGE_CAPTION_TBL, "file_path_id", "file_path", filepath, stmt_article_image);
+        if (ID.length() == 0) {
+            ID = null;
+        }
+        return ID;
+    }
+
+    public String getCaptionIDfromImgFile(String img_filename_str, String fignum) throws SQLException {
+        String pmc_num = getNumberPMC(img_filename_str);
+        String caption_id = getIDfromJoin(pmc_num, fignum, stmt_article_image);
+        if (caption_id.length() == 0) {
+            caption_id = null;
+        }
+        return caption_id;
+    }
+
+    public String getNumberPMC(String img_filename_str) {
+        String pattern_str = "PMC[\\d]+";
+        System.out.println(img_filename_str);
+        Pattern pattern = Pattern.compile(pattern_str);
+        Matcher matcher = pattern.matcher(img_filename_str.trim());
+        String line = "";
+//        System.out.println(matcher.group(1));
+        while (matcher.find()) {
+            line = matcher.group(0).replace("PMC", "");
+        }
+        return line;
+    }
+
 }

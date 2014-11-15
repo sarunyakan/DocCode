@@ -78,9 +78,6 @@ public class MainClass {
         dirImg.PathWalkImage(Configuration.PATH_DIR);
         imgList = dirImg.getFilelist();
 
-        //------[INSERT DATA INTO DATABASE]---------
-        sql = new SQL_operation(db.getConnection());            //Figure
-        sql = new SQL_operation(db.getConnection(), imgList);   //Article_image
         //---------------[READ FILE : XML]----------------------
         filelist = new DirectoryAccess(Configuration.XML_PATH).getFilelist();
         for (Path filename : filelist) {
@@ -90,6 +87,10 @@ public class MainClass {
             sql = new SQL_operation(db.getConnection(), readpdf.getTextExtraction(), readpdf.getFilename());   //SUBJECT
 
         }
+
+        //------[INSERT DATA INTO DATABASE]---------
+        sql = new SQL_operation(db.getConnection());            //Figure
+        sql = new SQL_operation(db.getConnection(), imgList);   //Article_image
 
     }
 }

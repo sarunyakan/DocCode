@@ -60,7 +60,7 @@ public class SQL_operation {
         File_path_SQL filepath_sql = new File_path_SQL(conn, Configuration.FILE_PATH_TBL, txtEx.getFilename());
         Author_SQL author_sql = new Author_SQL(conn, Configuration.AUTHOR_TBL, txtEx.getAuthor_name_value(), txtEx.getAuthor_surname_value());
         Article_keyword_SQL art_kw_sql = new Article_keyword_SQL(conn, Configuration.ARTICLE_KEYWORD_TBL, txtEx.getKeywords_value());
-        Caption_SQL cap_sql = new Caption_SQL(conn, Configuration.IMAGE_CAPTION_TBL, txtEx.getCaption_title_value(),txtEx.getCaption_para_value(), txtEx.getFigurenum_value(), txtEx.getFilename());
+        Caption_SQL cap_sql = new Caption_SQL(conn, Configuration.IMAGE_CAPTION_TBL, txtEx.getCaption_title_value(), txtEx.getCaption_para_value(), txtEx.getFigurenum_value(), txtEx.getFilename());
         Article_SQL art_sql = new Article_SQL(conn, Configuration.ARTICLE_TBL, txtEx.getPmc_id_value(), txtEx.getArticle_title_value(), txtEx.getPmid_value(), txtEx.getFilename(), txtEx.getSubject_value(), txtEx.getJournal_id_value());
     }
 
@@ -76,6 +76,24 @@ public class SQL_operation {
         }
 
         return att_str;
+    }
+
+    public String getIDfromJoin(String pmc_num, String fignum, Statement stmt) throws SQLException {
+        //For Image_caption, File_path and article only --> to fill caption_id at Article_image table
+        String query = SelectIDJoinStr(pmc_num, fignum);
+        System.out.println(query);
+        ResultSet rs = stmt.executeQuery(query);
+        String ID = "";
+        while (rs.next()) {
+            ID = rs.getString("caption_id");
+        }
+       
+        return ID;
+
+    }
+
+    public String SelectIDJoinStr(String pmc_num, String fignum) {
+        return "SELECT \"Image_caption\".caption_id FROM \"Image_caption\" WHERE \"Image_caption\".caption_fignum = '" + fignum + "' AND \"Image_caption\".caption_file = (SELECT \"File_path\".file_path FROM \"Article\", \"File_path\" WHERE \"Article\".file_path_id = \"File_path\".file_path_id AND \"Article\".pmc_id ='" + pmc_num + "');";
     }
 
     public String appendQuote(String str) {
@@ -143,7 +161,7 @@ public class SQL_operation {
 
     public void InsertQuery(String table_name, ResultSetMetaData meta, Statement stmt, String att_val, String val_str) throws SQLException {
         String insert_query = InsertStr(table_name, att_val, val_str);
-        System.out.println(insert_query);
+//        System.out.println(insert_query);
         ExecuteInsertSQL(stmt, insert_query);
     }
 

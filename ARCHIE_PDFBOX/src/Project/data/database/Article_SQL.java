@@ -83,16 +83,25 @@ public class Article_SQL extends SQL_operation {
 
     public String File_path_id_attribute(String filepath) throws SQLException {
         String ID = CheckExisted_ID_Value(Configuration.FILE_PATH_TBL, "file_path_id", "file_path", filepath, stmt_art);
+        if (ID.length() == 0) {
+            ID = null;
+        }
         return ID;
     }
 
     public String Subject_id_attribute(String subject_value) throws SQLException {
         String ID = CheckExisted_ID_Value(Configuration.SUBJECT_TBL, "sub_id", "subject", subject_value, stmt_art);
+        if (ID.length() == 0) {
+            ID = null;
+        }
         return ID;
     }
 
     public String Journal_id_attribute(String journal_id_value) throws SQLException {
         String ID = CheckExisted_ID_Value(Configuration.JOURNAL_TBL, "journal_id", "journal_key", journal_id_value, stmt_art);
+        if (ID.length() == 0) {
+            ID = null;
+        }
         return ID;
     }
 
