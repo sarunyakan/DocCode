@@ -65,6 +65,8 @@ public class MainClass {
 
             sql.resetSeq(db.getConnection(), Configuration.ARTICLE_KEYWORD_SEQ);
             sql.truncateTable(db.getConnection(), Configuration.ARTICLE_KEYWORD_TBL);
+            
+            sql.truncateTable(db.getConnection(), Configuration.ARTICLE_TBL);
         }
         //----------------------------------------------------------------------------------------------------------
 

@@ -22,7 +22,6 @@ public class Article_keyword_SQL extends SQL_operation {
     private Statement stmt_artkw = null;
     private Connection conn = null;
     private ArrayList<String> keywords_value = new ArrayList<String>();
-
     private String table_name = "";
 
     public Article_keyword_SQL(Connection conn, String table_name, ArrayList<String> keywords_value) throws SQLException {

@@ -9,7 +9,7 @@ package Project.data.preparation;
 public class Configuration {
 
     //-------SOURCE PATH---------------------
-    public static final String PATH_DIR = "E:/Doctoral_Research/Source/PDF/02/00/";
+    public static final String PATH_DIR = "E:/Doctoral_Research/Source/PDF/";
 
     //-------DATABASE CONFIGURATION---------------------
     public static final String DANAME = "ARCHIE";
@@ -90,5 +90,6 @@ public class Configuration {
 
     public static final String AUTHOR_PK = "A";
     public static final String AUTHOR_SEQ = "author_id_seq";
+
 
 }
