@@ -53,7 +53,9 @@ public class TextExtraction {
     private ArrayList<String> keywords_value = new ArrayList<String>();
     private ArrayList<String> subject_value = new ArrayList<String>();
     private ArrayList<String> abstract_value = new ArrayList<String>();
-    private ArrayList<String> figure_value = new ArrayList<String>();
+    private ArrayList<String> figurenum_value = new ArrayList<String>();
+    private ArrayList<String> caption_title_value = new ArrayList<String>();
+    private ArrayList<String> caption_para_value = new ArrayList<String>();
     private ArrayList<String> figure_detail_value = new ArrayList<String>();
 
     public TextExtraction(Path filename) throws IOException, DocumentException, ParserConfigurationException, SAXException, XPathExpressionException, FileNotFoundException, InterruptedException {
@@ -84,7 +86,10 @@ public class TextExtraction {
             abstract_value = ExtractArticleXML("ABSTRACT", Configuration.XML_ARTICLE_ABS2);
         }
 //        System.out.println("FIGURE---------------------------------------------");
-        figure_value = ExtractArticleXML("FIGURE", Configuration.XML_ARTICLE_BODY_FIG);
+
+        figurenum_value = ExtractArticleXML("FIGURE", Configuration.XML_ARTICLE_BODY_FIG);
+        caption_title_value = ExtractArticleXML("FIGURE_TITLE", Configuration.XML_ARTICLE_BODY_FIG_CAPTION_TITLE);
+        caption_para_value = ExtractArticleXML("FIGURE_CAPTION", Configuration.XML_ARTICLE_BODY_FIG_CAPTION_PARA);
 //        DetectParagraph("FIGURE_DETAIL", Configuration.XML_ARTICLE_PARAGRAPH);
         System.out.println("");
     }
@@ -191,7 +196,7 @@ public class TextExtraction {
         for (String ele : expression) {
             NodeList nodeList = (NodeList) xPath.compile(ele).evaluate(xmlDocument, XPathConstants.NODESET);
             if (nodeList.getLength() > 0) {
-                //PrintNode(title, nodeList); // print out all node
+//                PrintNode(title, nodeList); // print out all node
                 for (int i = 0; i < nodeList.getLength(); i++) {
                     String text = nodeList.item(i).getFirstChild().getNodeValue();
                     if (text != null) {
@@ -210,9 +215,9 @@ public class TextExtraction {
         for (int i = 0; i < nodeList.getLength(); i++) {
             String text = nodeList.item(i).getFirstChild().getNodeValue();
             if (text != null) {
-                System.out.println("\t" + text);
+                System.out.println("\t>>" + text);
             }
-
+            System.out.println("");
         }
 
     }
@@ -340,20 +345,6 @@ public class TextExtraction {
     }
 
     /**
-     * @return the figure_value
-     */
-    public ArrayList<String> getFigure_value() {
-        return figure_value;
-    }
-
-    /**
-     * @param figure_value the figure_value to set
-     */
-    public void setFigure_value(ArrayList<String> figure_value) {
-        this.figure_value = figure_value;
-    }
-
-    /**
      * @return the figure_detail_value
      */
     public ArrayList<String> getFigure_detail_value() {
@@ -407,6 +398,48 @@ public class TextExtraction {
      */
     public void setAuthor_surname_value(ArrayList<String> author_surname_value) {
         this.author_surname_value = author_surname_value;
+    }
+
+    /**
+     * @return the figurenum_value
+     */
+    public ArrayList<String> getFigurenum_value() {
+        return figurenum_value;
+    }
+
+    /**
+     * @param figurenum_value the figurenum_value to set
+     */
+    public void setFigurenum_value(ArrayList<String> figurenum_value) {
+        this.figurenum_value = figurenum_value;
+    }
+
+    /**
+     * @return the caption_title_value
+     */
+    public ArrayList<String> getCaption_title_value() {
+        return caption_title_value;
+    }
+
+    /**
+     * @param caption_title_value the caption_title_value to set
+     */
+    public void setCaption_title_value(ArrayList<String> caption_title_value) {
+        this.caption_title_value = caption_title_value;
+    }
+
+    /**
+     * @return the caption_para_value
+     */
+    public ArrayList<String> getCaption_para_value() {
+        return caption_para_value;
+    }
+
+    /**
+     * @param caption_para_value the caption_para_value to set
+     */
+    public void setCaption_para_value(ArrayList<String> caption_para_value) {
+        this.caption_para_value = caption_para_value;
     }
 
 }

@@ -55,12 +55,12 @@ public class SQL_operation {
         this.conn = conn;
         this.txtEx = txtEx;
         this.path = path;
-        Caption_SQL cap_sql = new Caption_SQL(conn, Configuration.SUBJECT_TBL, txtEx.getFigure_value());
         Subject_SQL sub_sql = new Subject_SQL(conn, Configuration.SUBJECT_TBL, txtEx.getSubject_value());
         Journal_SQL journal_sql = new Journal_SQL(conn, Configuration.JOURNAL_TBL, txtEx.getJournal_id_value(), txtEx.getJournal_title_value());
         File_path_SQL filepath_sql = new File_path_SQL(conn, Configuration.FILE_PATH_TBL, txtEx.getFilename());
         Author_SQL author_sql = new Author_SQL(conn, Configuration.AUTHOR_TBL, txtEx.getAuthor_name_value(), txtEx.getAuthor_surname_value());
         Article_keyword_SQL art_kw_sql = new Article_keyword_SQL(conn, Configuration.ARTICLE_KEYWORD_TBL, txtEx.getKeywords_value());
+        Caption_SQL cap_sql = new Caption_SQL(conn, Configuration.IMAGE_CAPTION_TBL, txtEx.getCaption_title_value(),txtEx.getCaption_para_value(), txtEx.getFigurenum_value(), txtEx.getFilename());
         Article_SQL art_sql = new Article_SQL(conn, Configuration.ARTICLE_TBL, txtEx.getPmc_id_value(), txtEx.getArticle_title_value(), txtEx.getPmid_value(), txtEx.getFilename(), txtEx.getSubject_value(), txtEx.getJournal_id_value());
     }
 

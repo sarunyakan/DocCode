@@ -46,7 +46,10 @@ public class Configuration {
     public static final String[] XML_ARTICLE_PMC = {"article/front/article-meta/article-id[@pub-id-type='pmc'][text()]"};
     public static final String[] XML_ARTICLE_ABS = {"article/front/article-meta/abstract[not(@*)]//descendant::*[text()]"};
     public static final String[] XML_ARTICLE_ABS2 = {"article/front/article-meta/abstract//descendant::*[text()]"};
-    public static final String[] XML_ARTICLE_BODY_FIG = {"article/body//sec//fig//descendant::*[text()] | article/body//sec//sec//fig//descendant::*[text()] | article/floats-group//fig//descendant::*[text()] | article/body//fig//descendant::*[text()]"};
+//    public static final String[] XML_ARTICLE_BODY_FIG = {"article/body//sec//fig//descendant::*[text()] | article/body//sec//sec//fig//descendant::*[text()] | article/floats-group//fig//descendant::*[text()] | article/body//fig//descendant::*[text()]"};
+    public static final String[] XML_ARTICLE_BODY_FIG = {"article/body//sec//fig//label[text()] | article/body//sec//sec//fig//label[text()] | article/floats-group//fig//label[text()] | article/body//fig//label[text()]"};
+    public static final String[] XML_ARTICLE_BODY_FIG_CAPTION_TITLE = {"article/body//sec//fig//caption//title[text()] | article/body//sec//sec//fig//caption//title[text()] | article/floats-group//fig//caption//title[text()] | article/body//fig//caption//title[text()]"};
+    public static final String[] XML_ARTICLE_BODY_FIG_CAPTION_PARA = {"article/body//sec//fig//caption//p[text()] | article/body//sec//sec//fig//caption//p[text()] | article/floats-group//fig//caption//p[text()] | article/body//fig//caption//p[text()]"};
     public static final String[] XML_ARTICLE_PARAGRAPH = {"article/body//sec//descendant-or-self::p[text()][not(parent::caption)]"};
 //    public static final String[] XML_AUTHOR = {"article/front/article-meta/contrib-group//contrib[@contrib-type='author']/name/descendant-or-self::*[text()]"};
     public static final String[] XML_AUTHOR = {"article/front/article-meta/contrib-group//contrib[@contrib-type='author']/name/given-names[text()]"};
@@ -62,6 +65,7 @@ public class Configuration {
     public static final String ARTICLE_TBL = "Article";
     public static final String SUBJECT_TBL = "Subject";
     public static final String JOURNAL_TBL = "Journal";
+    public static final String IMAGE_CAPTION_TBL = "Image_caption";
     public static final String FILE_PATH_TBL = "File_path";
     public static final String AUTHOR_OF_ARTICLE_TBL = "Author_of_article";
     public static final String KEYWORD_OF_ARTICLE_TBL = "Keyword_of_article";
@@ -91,5 +95,6 @@ public class Configuration {
     public static final String AUTHOR_PK = "A";
     public static final String AUTHOR_SEQ = "author_id_seq";
 
-
+    public static final String IMAGE_CAPTION_PK = "IC";
+    public static final String IMAGE_CAPTION_SEQ = "image_caption_id_seq";
 }

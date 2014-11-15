@@ -70,7 +70,7 @@ public class Article_SQL extends SQL_operation {
     public String Article_value_string(String table_name, String pmc_id_value, String article_title_value, String pmid_value, Path filename, String subject_value, String journal_id_value, Statement stmt_art) throws SQLException {
         String val_str = "";
         String pmc_id = appendQuote(pmc_id_value);
-        String article_title = appendQuote(article_title_value.replace("'", "+"));
+        String article_title = appendQuote(article_title_value.replace("'", "''"));
         String pmid = appendQuote(pmid_value);
 
         String pathname = appendQuote(File_path_id_attribute(filename.toString()));
