@@ -60,10 +60,16 @@ public class Journal_SQL extends SQL_operation {
 
         String journal_id_str = jid;
         String journal_title_str = jtitle;
-        boolean chk = CheckExistedValue(table_name, meta.getColumnName(2), jtitle, stmt_journal);
-        boolean chk2 = CheckExistedValue(table_name, meta.getColumnName(3), jid, stmt_journal);
+//        boolean chk = CheckExistedValue(table_name, meta.getColumnName(2), jtitle, stmt_journal);
+//        boolean chk2 = CheckExistedValue(table_name, meta.getColumnName(3), jid, stmt_journal);
+//
+//        if (!(chk && chk2)) {
 
-        if (!(chk && chk2)) {
+        String query_clause = meta.getColumnName(3) + " = '" + jid + "' AND " + meta.getColumnName(2) + " = '" + jtitle + "'";
+        boolean chk = CheckExisted2Value(table_name, query_clause, stmt_journal);
+//        boolean chk2 = CheckExistedValue(table_name, meta.getColumnName(3), jid, stmt_journal);
+
+        if (!(chk)) {
             int seq = getNextval(Configuration.JOURNAL_SEQ, stmt_journal);
             String journal_pk = appendQuote(Configuration.JOURNAL_PK + seq);
             journal_id_str = appendQuote(journal_id_str);

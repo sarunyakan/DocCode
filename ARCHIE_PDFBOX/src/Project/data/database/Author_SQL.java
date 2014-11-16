@@ -59,11 +59,15 @@ public class Author_SQL extends SQL_operation {
 
         String val_str = "";
 
-        String author_name = author_name_ele.replace("'", "");
-        String author_surname = author_surname_ele.replace("'", "");
-        boolean chk = CheckExistedValue(table_name, meta.getColumnName(2), author_name, stmt_author);
-        boolean chk2 = CheckExistedValue(table_name, meta.getColumnName(3), author_surname, stmt_author);
-        if (!(chk && chk2)) {
+        String author_name = author_name_ele.replace("'", "''");
+        String author_surname = author_surname_ele.replace("'", "''");
+//        boolean chk = CheckExistedValue(table_name, meta.getColumnName(2), author_name, stmt_author);
+//        boolean chk2 = CheckExistedValue(table_name, meta.getColumnName(3), author_surname, stmt_author);
+//        if (!(chk && chk2)) {
+        String query_clause = meta.getColumnName(2) + " = '" + author_name + "' AND " + meta.getColumnName(3) + " = '" + author_surname + "'";
+        boolean chk = CheckExisted2Value(table_name, query_clause, stmt_author);
+        //boolean chk2 = CheckExistedValue(table_name, meta.getColumnName(3), author_surname, stmt_author);
+        if (!(chk)) {
             int seq = getNextval(Configuration.AUTHOR_SEQ, stmt_author);
             String author_pk = appendQuote(Configuration.AUTHOR_PK + seq);
             author_name = appendQuote(author_name);

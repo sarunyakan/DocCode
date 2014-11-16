@@ -63,6 +63,7 @@ public class SQL_operation {
         Caption_SQL cap_sql = new Caption_SQL(conn, Configuration.IMAGE_CAPTION_TBL, txtEx.getCaption_title_value(), txtEx.getCaption_para_value(), txtEx.getFigurenum_value(), txtEx.getFilename());
         Article_SQL art_sql = new Article_SQL(conn, Configuration.ARTICLE_TBL, txtEx.getPmc_id_value(), txtEx.getArticle_title_value(), txtEx.getPmid_value(), txtEx.getFilename(), txtEx.getSubject_value(), txtEx.getJournal_id_value());
         Article_paragraph_SQL art_para_sql = new Article_paragraph_SQL(conn, Configuration.ARTICLE_PARAGRAPH_TBL, txtEx.getPmc_id_value(), txtEx.getParagraph_value());
+        Author_of_article_SQL author_of_art_sql = new Author_of_article_SQL(conn, Configuration.AUTHOR_OF_ARTICLE_TBL, txtEx.getAuthor_name_value(), txtEx.getAuthor_surname_value(), txtEx.getPmc_id_value());
     }
 
     public String Attribute_string(String table_name, ResultSetMetaData meta) throws SQLException {
@@ -124,8 +125,16 @@ public class SQL_operation {
         return "SELECT * FROM \"" + table_name + "\" WHERE " + attribute + " LIKE '" + str_part + "';";
     }
 
+    public String SelectLikeClauseStr(String table_name, String str_part) {
+        return "SELECT * FROM \"" + table_name + "\" WHERE " + str_part + ";";
+    }
+
     public String SelectIDStr(String table_name, String targetAtt, String clauseAtt, String str_part) {
         return "SELECT " + targetAtt + " FROM \"" + table_name + "\" WHERE " + clauseAtt + " = '" + str_part + "';";
+    }
+
+    public String SelectIDClausesStr(String table_name, String targetAtt, String clause) {
+        return "SELECT " + targetAtt + " FROM \"" + table_name + "\" WHERE " + clause + ";";
     }
 
     public boolean CheckExistedValue(String table_name, String attribute, String str_part, Statement stmt) throws SQLException {
@@ -140,9 +149,33 @@ public class SQL_operation {
         return hasRows;
     }
 
+    public boolean CheckExisted2Value(String table_name, String str_part, Statement stmt) throws SQLException {
+
+        String query = SelectLikeClauseStr(table_name, str_part);
+        System.out.println(query);
+        ResultSet rs = stmt.executeQuery(query);
+        boolean hasRows = false;
+        while (rs.next()) {
+            hasRows = true;
+        }
+        return hasRows;
+    }
+
     public String CheckExisted_ID_Value(String table_name, String targetAtt, String clauseAtt, String str_part, Statement stmt) throws SQLException {
 
         String query = SelectIDStr(table_name, targetAtt, clauseAtt, str_part);
+        System.out.println(query);
+        ResultSet rs = stmt.executeQuery(query);
+        String ID = "";
+        while (rs.next()) {
+            ID = rs.getString(targetAtt);
+        }
+        return ID;
+    }
+
+    public String CheckExisted_ID_Clauses_Value(String table_name, String targetAtt, String clause, Statement stmt) throws SQLException {
+
+        String query = SelectIDClausesStr(table_name, targetAtt, clause);
         System.out.println(query);
         ResultSet rs = stmt.executeQuery(query);
         String ID = "";
