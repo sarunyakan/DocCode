@@ -36,7 +36,7 @@ public class Configuration {
 
     //-------XML EXTRACTION---------------
     public static final int SWITCH_XML_MODE = 1;
-    public static final String XML_PATH = "E:\\Doctoral_Research\\Source\\XML\\article.C-H\\Hippocampus\\";//"E:/Doctoral_Research/Source/XML/";
+    public static final String XML_PATH = "E:/Doctoral_Research/Source/XML/";
     public static final String[] XML_JOURNAL_TITLE = {"/article/front/journal-meta/journal-title", "/article/front/journal-meta/journal-title-group/journal-title"};
     public static final String[] XML_JOURNAL_ID = {"/article/front/journal-meta/journal-id[@journal-id-type='nlm-ta']"};
     public static final String[] XML_ARTICLE_TITLE = {"/article/front/article-meta/title-group/article-title[text()]"};

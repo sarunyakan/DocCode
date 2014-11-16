@@ -46,7 +46,7 @@ public class Keyword_of_article_SQL extends SQL_operation {
                 val_str = Keyword_of_article_value_string(table_name, keywords_value.get(i), pmc_id_value.get(0), stmt_kw_art);
             }
 
-            if (val_str.length() > 0) {
+            if (val_str.length() > 0 && !val_str.contains("null")) {
                 InsertQuery(table_name, meta, stmt_kw_art, att_str, val_str);
             }
         }

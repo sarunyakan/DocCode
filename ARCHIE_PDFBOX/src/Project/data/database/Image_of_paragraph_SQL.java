@@ -45,7 +45,6 @@ public class Image_of_paragraph_SQL extends SQL_operation {
             if (table_name.equalsIgnoreCase(Configuration.IMAGE_OF_PARAGRAPH_TBL)) {
                 val_str = Image_of_paragraph_value_string(table_name, pmc_id_value.get(0), paragraph_value.get(i), stmt_img_para);
             }
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>" + val_str);
             if (val_str.length() > 0 && !val_str.contains("null")) {
                 InsertQuery(table_name, meta, stmt_img_para, att_str, val_str);
             }
@@ -68,8 +67,7 @@ public class Image_of_paragraph_SQL extends SQL_operation {
         }
 
         return val_str;
-        
-     
+
     }
 
     public String art_para_attribute(String para, String pmc_id, String targetAtt) throws SQLException {

@@ -49,7 +49,7 @@ public class Author_of_article_SQL extends SQL_operation {
                 val_str = Author_of_article_value_string(table_name, author_name_value.get(i), author_surname_value.get(i), pmc_id_value.get(0), stmt_auth_art);
             }
 
-            if (val_str.length() > 0) {
+            if (val_str.length() > 0 && !val_str.contains("null")) {
                 InsertQuery(table_name, meta, stmt_auth_art, att_str, val_str);
             }
         }
