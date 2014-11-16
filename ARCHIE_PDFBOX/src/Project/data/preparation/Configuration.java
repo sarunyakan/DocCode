@@ -73,7 +73,7 @@ public class Configuration {
     public static final String AUTHOR_TBL = "Author";
 
     //-------TABLE OBJECT---------------------
-    public static final String RESET = "OFF";
+    public static final String RESET = "ON";
 
     public static final String ARTICLE_IMAGE_SEQ = "article_image_id_seq";
     public static final String ARTICLE_IMAGE_PK = "AI";

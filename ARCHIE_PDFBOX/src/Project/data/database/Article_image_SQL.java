@@ -28,6 +28,7 @@ public class Article_image_SQL extends SQL_operation {
     private ArrayList<String> value = null;
     private ArrayList<Path> imgList = new ArrayList<Path>();
     private String table_name = "";
+    private String pmc = "";
 
     public Article_image_SQL(Connection conn, String table_name, ArrayList<Path> imgList) throws SQLException {
         this.conn = conn;
@@ -65,8 +66,13 @@ public class Article_image_SQL extends SQL_operation {
         String caption_id = appendQuote(caption_id_tmp);
         int seq = getNextval(Configuration.ARTICLE_IMAGE_SEQ, stmt_article_image);
         String aticleImage_pk = appendQuote(Configuration.ARTICLE_IMAGE_PK + seq);
-
-        val_str = aticleImage_pk + "," + fig_id + "," + img_filename + "," + img_path + "," + cluster_id + "," + caption_id;
+        String image_pmc_id_str = getPmc();
+        if (image_pmc_id_str.length() == 0) {
+            image_pmc_id_str = null;
+        } else {
+            image_pmc_id_str = appendQuote(image_pmc_id_str);
+        }
+        val_str = aticleImage_pk + "," + fig_id + "," + img_filename + "," + img_path + "," + cluster_id + "," + caption_id + "," + image_pmc_id_str;
 
         return val_str;
     }
@@ -108,12 +114,27 @@ public class Article_image_SQL extends SQL_operation {
         System.out.println(img_filename_str);
         Pattern pattern = Pattern.compile(pattern_str);
         Matcher matcher = pattern.matcher(img_filename_str.trim());
-        String line = "";
+        pmc = "";
 //        System.out.println(matcher.group(1));
         while (matcher.find()) {
-            line = matcher.group(0).replace("PMC", "");
+            pmc = matcher.group(0).replace("PMC", "");
         }
-        return line;
+        setPmc(pmc);
+        return pmc;
+    }
+
+    /**
+     * @return the pmc
+     */
+    public String getPmc() {
+        return pmc;
+    }
+
+    /**
+     * @param pmc the pmc to set
+     */
+    public void setPmc(String pmc) {
+        this.pmc = pmc;
     }
 
 }
