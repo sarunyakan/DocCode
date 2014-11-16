@@ -54,7 +54,7 @@ public class SQL_operation {
     public SQL_operation(Connection conn, TextExtraction txtEx) throws SQLException {
         this.conn = conn;
         this.txtEx = txtEx;
-        
+
         Image_of_paragraph_SQL img_of_para_sql = new Image_of_paragraph_SQL(conn, Configuration.IMAGE_OF_PARAGRAPH_TBL, txtEx.getPmc_id_value(), txtEx.getParagraph_value());
     }
 
@@ -174,7 +174,7 @@ public class SQL_operation {
     public String CheckExisted_ID_Value(String table_name, String targetAtt, String clauseAtt, String str_part, Statement stmt) throws SQLException {
 
         String query = SelectIDStr(table_name, targetAtt, clauseAtt, str_part);
-        System.out.println(query);
+//        System.out.println(query);
         ResultSet rs = stmt.executeQuery(query);
         String ID = "";
         while (rs.next()) {
@@ -186,18 +186,12 @@ public class SQL_operation {
     public String CheckExisted_ID_Clauses_Value(String table_name, String targetAtt, String clause, Statement stmt) throws SQLException {
 
         String query = SelectIDClausesStr(table_name, targetAtt, clause);
-        System.out.println(query);
+//        System.out.println(query);
         String ID = "";
-
         ResultSet rs = stmt.executeQuery(query);
-        rs.last();
-        int count = rs.getRow();
-        rs.beforeFirst();
-        System.out.println(count);
         while (rs.next()) {
             ID = rs.getString(targetAtt);
         }
-
         return ID;
     }
 
@@ -211,7 +205,7 @@ public class SQL_operation {
 
     public void InsertQuery(String table_name, ResultSetMetaData meta, Statement stmt, String att_val, String val_str) throws SQLException {
         String insert_query = InsertStr(table_name, att_val, val_str);
-        System.out.println(insert_query);
+//        System.out.println(insert_query);
         ExecuteInsertSQL(stmt, insert_query);
     }
 

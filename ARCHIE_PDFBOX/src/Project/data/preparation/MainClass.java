@@ -99,11 +99,11 @@ public class MainClass {
         //------[INSERT DATA INTO DATABASE]---------
         sql = new SQL_operation(db.getConnection());            //Figure
         sql = new SQL_operation(db.getConnection(), imgList);   //Article_image
-        System.out.println("filelist.size() : "+filelist.size());
-        
+
         for (Path filename : filelist) {
+            System.out.println("IMAGE_OF_PARAGRAPH : " + filename);
             readpdf = new ReadPDF(filename, Configuration.SWITCH_XML_MODE);
-            sql = new SQL_operation(db.getConnection(), readpdf.getTextExtraction());   //IMAGE_OFPARAGRAPH
+            sql = new SQL_operation(db.getConnection(), readpdf.getTextExtraction());   //IMAGE_OF_PARAGRAPH
         }
     }
 }
