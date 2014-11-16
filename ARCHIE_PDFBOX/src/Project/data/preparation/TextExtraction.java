@@ -37,7 +37,7 @@ public class TextExtraction {
     private String RESULT = "";
     private ArrayList<String> textContent = new ArrayList<String>();
     private ArrayList<String> node_value = null;
-
+    private ArrayList<String> para_node_value = null;
     private FileInputStream file;
     private DocumentBuilderFactory builderFactory;
     private DocumentBuilder builder;
@@ -57,6 +57,7 @@ public class TextExtraction {
     private ArrayList<String> caption_title_value = new ArrayList<String>();
     private ArrayList<String> caption_para_value = new ArrayList<String>();
     private ArrayList<String> figure_detail_value = new ArrayList<String>();
+    private ArrayList<String> paragraph_value = new ArrayList<String>();
 
     public TextExtraction(Path filename) throws IOException, DocumentException, ParserConfigurationException, SAXException, XPathExpressionException, FileNotFoundException, InterruptedException {
         this.filename = filename;
@@ -90,12 +91,12 @@ public class TextExtraction {
         figurenum_value = ExtractArticleXML("FIGURE", Configuration.XML_ARTICLE_BODY_FIG);
         caption_title_value = ExtractArticleXML("FIGURE_TITLE", Configuration.XML_ARTICLE_BODY_FIG_CAPTION_TITLE);
         caption_para_value = ExtractArticleXML("FIGURE_CAPTION", Configuration.XML_ARTICLE_BODY_FIG_CAPTION_PARA);
-//        DetectParagraph("FIGURE_DETAIL", Configuration.XML_ARTICLE_PARAGRAPH);
-        System.out.println("");
+        paragraph_value = DetectParagraph("FIGURE_DETAIL", Configuration.XML_ARTICLE_PARAGRAPH);
+//        System.out.println("");
     }
 
-    public void DetectParagraph(String title, String[] xml_ele) throws XPathExpressionException {
-
+    public ArrayList<String> DetectParagraph(String title, String[] xml_ele) throws XPathExpressionException {
+        para_node_value = new ArrayList<String>();
         String[] expression = xml_ele;
         boolean isFind = false;
         for (String ele : expression) {
@@ -103,12 +104,14 @@ public class TextExtraction {
 
             for (int i = 0; i < nodeList.getLength(); i++) {
                 if (isFoundWord(nodeList.item(i))) {
-                    System.out.println("DETAIL: " + nodeList.item(i).getFirstChild().getNodeValue() + "\n");
+                    //System.out.println("DETAIL: " + nodeList.item(i).getFirstChild().getNodeValue() + "\n");
+                    para_node_value.add(nodeList.item(i).getFirstChild().getNodeValue());
                 }
 
             }
 
         }
+        return para_node_value;
     }
 
     public boolean isFoundWord(Node item) {
@@ -440,6 +443,20 @@ public class TextExtraction {
      */
     public void setCaption_para_value(ArrayList<String> caption_para_value) {
         this.caption_para_value = caption_para_value;
+    }
+
+    /**
+     * @return the paragraph_value
+     */
+    public ArrayList<String> getParagraph_value() {
+        return paragraph_value;
+    }
+
+    /**
+     * @param paragraph_value the paragraph_value to set
+     */
+    public void setParagraph_value(ArrayList<String> paragraph_value) {
+        this.paragraph_value = paragraph_value;
     }
 
 }

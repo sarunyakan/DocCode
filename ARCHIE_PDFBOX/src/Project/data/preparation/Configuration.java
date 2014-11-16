@@ -97,4 +97,7 @@ public class Configuration {
 
     public static final String IMAGE_CAPTION_PK = "IC";
     public static final String IMAGE_CAPTION_SEQ = "image_caption_id_seq";
+
+    public static final String ARTICLE_PARAGRAPH_PK = "AP";
+    public static final String ARTICLE_PARAGRAPH_SEQ = "article_paragraph_id_seq";
 }

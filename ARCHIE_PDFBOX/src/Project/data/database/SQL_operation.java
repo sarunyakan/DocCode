@@ -62,6 +62,7 @@ public class SQL_operation {
         Article_keyword_SQL art_kw_sql = new Article_keyword_SQL(conn, Configuration.ARTICLE_KEYWORD_TBL, txtEx.getKeywords_value());
         Caption_SQL cap_sql = new Caption_SQL(conn, Configuration.IMAGE_CAPTION_TBL, txtEx.getCaption_title_value(), txtEx.getCaption_para_value(), txtEx.getFigurenum_value(), txtEx.getFilename());
         Article_SQL art_sql = new Article_SQL(conn, Configuration.ARTICLE_TBL, txtEx.getPmc_id_value(), txtEx.getArticle_title_value(), txtEx.getPmid_value(), txtEx.getFilename(), txtEx.getSubject_value(), txtEx.getJournal_id_value());
+        Article_paragraph_SQL art_para_sql = new Article_paragraph_SQL(conn, Configuration.ARTICLE_PARAGRAPH_TBL, txtEx.getPmc_id_value(), txtEx.getParagraph_value());
     }
 
     public String Attribute_string(String table_name, ResultSetMetaData meta) throws SQLException {
@@ -87,7 +88,7 @@ public class SQL_operation {
         while (rs.next()) {
             ID = rs.getString("caption_id");
         }
-       
+
         return ID;
 
     }
@@ -130,7 +131,7 @@ public class SQL_operation {
     public boolean CheckExistedValue(String table_name, String attribute, String str_part, Statement stmt) throws SQLException {
 
         String query = SelectLikeStr(table_name, attribute, str_part);
-//        System.out.println(query);
+        System.out.println(query);
         ResultSet rs = stmt.executeQuery(query);
         boolean hasRows = false;
         while (rs.next()) {
@@ -161,7 +162,7 @@ public class SQL_operation {
 
     public void InsertQuery(String table_name, ResultSetMetaData meta, Statement stmt, String att_val, String val_str) throws SQLException {
         String insert_query = InsertStr(table_name, att_val, val_str);
-//        System.out.println(insert_query);
+        System.out.println(insert_query);
         ExecuteInsertSQL(stmt, insert_query);
     }
 
