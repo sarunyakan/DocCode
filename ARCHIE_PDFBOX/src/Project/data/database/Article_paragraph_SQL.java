@@ -6,7 +6,6 @@
 package Project.data.database;
 
 import Project.data.preparation.Configuration;
-import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -15,7 +14,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.w3c.dom.Node;
 
 /**
  *
@@ -26,7 +24,6 @@ public class Article_paragraph_SQL extends SQL_operation {
     private Statement stmt_article_para = null;
     private Connection conn = null;
     private ArrayList<String> paragraph_txt = null;
-    private ArrayList<String> paragraph_fig = null;
     private String table_name = "";
     private ArrayList<String> pmc_id = null;
 
@@ -59,16 +56,15 @@ public class Article_paragraph_SQL extends SQL_operation {
         int seq = getNextval(Configuration.ARTICLE_PARAGRAPH_SEQ, stmt_article_para);
         String articlePara_pk = appendQuote(Configuration.ARTICLE_PARAGRAPH_PK + seq);
         String pmc_id_str = appendQuote(pmc_id);
-        String para_str = appendQuote(paragraph.replace("'", "''"));
-        //Extract fig
+        String para_str = appendQuote(paragraph.replace("'", "''"));       
         fignum = appendQuote(FignumWord(paragraph));
-        //----------
+     
         val_str = articlePara_pk + "," + pmc_id_str + "," + para_str + "," + fignum;
         return val_str;
     }
 
     public String FignumWord(String para_txt) {
-        ArrayList<String> fignum = new ArrayList<String>();
+
         String str = "";
         String str2 = "";
 
@@ -94,9 +90,7 @@ public class Article_paragraph_SQL extends SQL_operation {
                         str2 = str2 + "+" + line;
                     }
                 }
-
             }
-
         }
         return str2;
     }
