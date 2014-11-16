@@ -36,7 +36,7 @@ public class Configuration {
 
     //-------XML EXTRACTION---------------
     public static final int SWITCH_XML_MODE = 1;
-    public static final String XML_PATH = "E:/Doctoral_Research/Source/XML/";
+    public static final String XML_PATH = "E:\\Doctoral_Research\\Source\\XML\\article.C-H\\Hippocampus\\";//"E:/Doctoral_Research/Source/XML/";
     public static final String[] XML_JOURNAL_TITLE = {"/article/front/journal-meta/journal-title", "/article/front/journal-meta/journal-title-group/journal-title"};
     public static final String[] XML_JOURNAL_ID = {"/article/front/journal-meta/journal-id[@journal-id-type='nlm-ta']"};
     public static final String[] XML_ARTICLE_TITLE = {"/article/front/article-meta/title-group/article-title[text()]"};
@@ -50,7 +50,7 @@ public class Configuration {
     public static final String[] XML_ARTICLE_BODY_FIG = {"article/body//sec//fig//label[text()] | article/body//sec//sec//fig//label[text()] | article/floats-group//fig//label[text()] | article/body//fig//label[text()]"};
     public static final String[] XML_ARTICLE_BODY_FIG_CAPTION_TITLE = {"article/body//sec//fig//caption//title[text()] | article/body//sec//sec//fig//caption//title[text()] | article/floats-group//fig//caption//title[text()] | article/body//fig//caption//title[text()]"};
     public static final String[] XML_ARTICLE_BODY_FIG_CAPTION_PARA = {"article/body//sec//fig//caption//p[text()] | article/body//sec//sec//fig//caption//p[text()] | article/floats-group//fig//caption//p[text()] | article/body//fig//caption//p[text()]"};
-    public static final String[] XML_ARTICLE_PARAGRAPH = {"article/body//sec//descendant-or-self::p[text()][not(parent::caption)]"};
+    public static final String[] XML_ARTICLE_PARAGRAPH = {"article/body//sec//descendant-or-self::p[text()][not(parent::caption)] | article/body//descendant-or-self::p[text()][not(parent::caption)]"};
 //    public static final String[] XML_AUTHOR = {"article/front/article-meta/contrib-group//contrib[@contrib-type='author']/name/descendant-or-self::*[text()]"};
     public static final String[] XML_AUTHOR = {"article/front/article-meta/contrib-group//contrib[@contrib-type='author']/name/given-names[text()]"};
     public static final String[] XML_AUTHOR2 = {"article/front/article-meta/contrib-group//contrib[@contrib-type='author']/name/surname[text()]"};
@@ -100,4 +100,5 @@ public class Configuration {
 
     public static final String ARTICLE_PARAGRAPH_PK = "AP";
     public static final String ARTICLE_PARAGRAPH_SEQ = "article_paragraph_id_seq";
+    
 }

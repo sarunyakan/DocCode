@@ -73,6 +73,13 @@ public class MainClass {
 
             sql.resetSeq(db.getConnection(), Configuration.ARTICLE_PARAGRAPH_SEQ);
             sql.truncateTable(db.getConnection(), Configuration.ARTICLE_PARAGRAPH_TBL);
+
+            sql.truncateTable(db.getConnection(), Configuration.AUTHOR_OF_ARTICLE_TBL);
+
+            sql.truncateTable(db.getConnection(), Configuration.KEYWORD_OF_ARTICLE_TBL);
+
+            sql.truncateTable(db.getConnection(), Configuration.IMAGE_OF_PARAGRAPH_TBL);
+
         }
         //----------------------------------------------------------------------------------------------------------
 
@@ -87,13 +94,16 @@ public class MainClass {
             System.out.println(filename);
             readpdf = new ReadPDF(filename, Configuration.SWITCH_XML_MODE);
             //------[INSERT DATA INTO DATABASE]---------
-            sql = new SQL_operation(db.getConnection(), readpdf.getTextExtraction(), readpdf.getFilename());   //SUBJECT
-
+            sql = new SQL_operation(db.getConnection(), readpdf.getTextExtraction(), readpdf.getFilename());
         }
-
         //------[INSERT DATA INTO DATABASE]---------
         sql = new SQL_operation(db.getConnection());            //Figure
         sql = new SQL_operation(db.getConnection(), imgList);   //Article_image
-
+        System.out.println("filelist.size() : "+filelist.size());
+        
+        for (Path filename : filelist) {
+            readpdf = new ReadPDF(filename, Configuration.SWITCH_XML_MODE);
+            sql = new SQL_operation(db.getConnection(), readpdf.getTextExtraction());   //IMAGE_OFPARAGRAPH
+        }
     }
 }

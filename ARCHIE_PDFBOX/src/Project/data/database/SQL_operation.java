@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import Project.data.preparation.Configuration;
 import Project.data.preparation.TextExtraction;
 import java.nio.file.Path;
+import java.sql.PreparedStatement;
 import java.util.HashMap;
 
 /**
@@ -50,6 +51,13 @@ public class SQL_operation {
         //Insert_Article_Image(conn, Configuration.ARTICLE_IMAGE_TBL, imgList);
     }
 
+    public SQL_operation(Connection conn, TextExtraction txtEx) throws SQLException {
+        this.conn = conn;
+        this.txtEx = txtEx;
+        
+        Image_of_paragraph_SQL img_of_para_sql = new Image_of_paragraph_SQL(conn, Configuration.IMAGE_OF_PARAGRAPH_TBL, txtEx.getPmc_id_value(), txtEx.getParagraph_value());
+    }
+
     //------------[Constructor - TEXT]--------------------
     public SQL_operation(Connection conn, TextExtraction txtEx, Path path) throws SQLException {
         this.conn = conn;
@@ -64,6 +72,8 @@ public class SQL_operation {
         Article_SQL art_sql = new Article_SQL(conn, Configuration.ARTICLE_TBL, txtEx.getPmc_id_value(), txtEx.getArticle_title_value(), txtEx.getPmid_value(), txtEx.getFilename(), txtEx.getSubject_value(), txtEx.getJournal_id_value());
         Article_paragraph_SQL art_para_sql = new Article_paragraph_SQL(conn, Configuration.ARTICLE_PARAGRAPH_TBL, txtEx.getPmc_id_value(), txtEx.getParagraph_value());
         Author_of_article_SQL author_of_art_sql = new Author_of_article_SQL(conn, Configuration.AUTHOR_OF_ARTICLE_TBL, txtEx.getAuthor_name_value(), txtEx.getAuthor_surname_value(), txtEx.getPmc_id_value());
+        Keyword_of_article_SQL kw_of_art_sql = new Keyword_of_article_SQL(conn, Configuration.KEYWORD_OF_ARTICLE_TBL, txtEx.getKeywords_value(), txtEx.getPmc_id_value());
+//        Image_of_paragraph_SQL img_of_para_sql = new Image_of_paragraph_SQL(conn, Configuration.IMAGE_OF_PARAGRAPH_TBL, txtEx.getPmc_id_value(), txtEx.getParagraph_value());
     }
 
     public String Attribute_string(String table_name, ResultSetMetaData meta) throws SQLException {
@@ -83,7 +93,7 @@ public class SQL_operation {
     public String getIDfromJoin(String pmc_num, String fignum, Statement stmt) throws SQLException {
         //For Image_caption, File_path and article only --> to fill caption_id at Article_image table
         String query = SelectIDJoinStr(pmc_num, fignum);
-        System.out.println(query);
+//        System.out.println(query);
         ResultSet rs = stmt.executeQuery(query);
         String ID = "";
         while (rs.next()) {
@@ -140,7 +150,7 @@ public class SQL_operation {
     public boolean CheckExistedValue(String table_name, String attribute, String str_part, Statement stmt) throws SQLException {
 
         String query = SelectLikeStr(table_name, attribute, str_part);
-        System.out.println(query);
+//        System.out.println(query);
         ResultSet rs = stmt.executeQuery(query);
         boolean hasRows = false;
         while (rs.next()) {
@@ -152,7 +162,7 @@ public class SQL_operation {
     public boolean CheckExisted2Value(String table_name, String str_part, Statement stmt) throws SQLException {
 
         String query = SelectLikeClauseStr(table_name, str_part);
-        System.out.println(query);
+//        System.out.println(query);
         ResultSet rs = stmt.executeQuery(query);
         boolean hasRows = false;
         while (rs.next()) {
@@ -177,11 +187,17 @@ public class SQL_operation {
 
         String query = SelectIDClausesStr(table_name, targetAtt, clause);
         System.out.println(query);
-        ResultSet rs = stmt.executeQuery(query);
         String ID = "";
+
+        ResultSet rs = stmt.executeQuery(query);
+        rs.last();
+        int count = rs.getRow();
+        rs.beforeFirst();
+        System.out.println(count);
         while (rs.next()) {
             ID = rs.getString(targetAtt);
         }
+
         return ID;
     }
 
@@ -219,7 +235,7 @@ public class SQL_operation {
     public void truncateTable(Connection conn, String table_name) throws SQLException {
         Statement stmt_trunc = conn.createStatement();
         String query = "TRUNCATE \"" + table_name + "\" CASCADE;";
-        System.out.println(query);
+//        System.out.println(query);
         stmt_trunc.executeUpdate(query);
         stmt_trunc.close();
     }

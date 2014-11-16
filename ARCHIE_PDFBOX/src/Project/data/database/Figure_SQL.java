@@ -73,7 +73,7 @@ public class Figure_SQL extends SQL_operation {
             val_str = val_str + "'" + value.get(i) + "')";
 
             String query_str = insert_query + att_str + val_str;
-            System.out.println(query_str);
+//            System.out.println(query_str);
             ExecuteInsertSQL(stmt_figure, query_str);
 
         }

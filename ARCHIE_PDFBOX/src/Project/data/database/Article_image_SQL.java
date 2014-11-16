@@ -111,7 +111,7 @@ public class Article_image_SQL extends SQL_operation {
 
     public String getNumberPMC(String img_filename_str) {
         String pattern_str = "PMC[\\d]+";
-        System.out.println(img_filename_str);
+//        System.out.println(img_filename_str);
         Pattern pattern = Pattern.compile(pattern_str);
         Matcher matcher = pattern.matcher(img_filename_str.trim());
         pmc = "";

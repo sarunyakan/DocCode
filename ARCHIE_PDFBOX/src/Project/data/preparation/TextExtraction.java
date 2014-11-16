@@ -104,7 +104,7 @@ public class TextExtraction {
 
             for (int i = 0; i < nodeList.getLength(); i++) {
                 if (isFoundWord(nodeList.item(i))) {
-                    //System.out.println("DETAIL: " + nodeList.item(i).getFirstChild().getNodeValue() + "\n");
+//                    System.out.println("DETAIL: " + nodeList.item(i).getFirstChild().getNodeValue() + "\n");
                     para_node_value.add(nodeList.item(i).getFirstChild().getNodeValue());
                 }
 
