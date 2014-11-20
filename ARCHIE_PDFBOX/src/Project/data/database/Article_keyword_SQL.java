@@ -52,7 +52,7 @@ public class Article_keyword_SQL extends SQL_operation {
 
         String val_str = "";
 
-        String art_kw = art_kw_ele;
+        String art_kw = art_kw_ele.replace("'","''");
         boolean chk = CheckExistedValue(table_name, meta.getColumnName(2), art_kw, stmt_artkw);
         if (!chk) {
             int seq = getNextval(Configuration.ARTICLE_KEYWORD_SEQ, stmt_artkw);

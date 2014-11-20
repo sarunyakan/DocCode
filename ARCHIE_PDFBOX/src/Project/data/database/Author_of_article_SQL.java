@@ -20,6 +20,7 @@ import java.util.ArrayList;
  */
 public class Author_of_article_SQL extends SQL_operation {
 
+    private boolean isDuplicate = false;
     private Statement stmt_auth_art = null;
     private Connection conn = null;
     private ArrayList<String> author_name_value = new ArrayList<String>();
@@ -49,7 +50,7 @@ public class Author_of_article_SQL extends SQL_operation {
                 val_str = Author_of_article_value_string(table_name, author_name_value.get(i), author_surname_value.get(i), pmc_id_value.get(0), stmt_auth_art);
             }
 
-            if (val_str.length() > 0 && !val_str.contains("null")) {
+            if (val_str.length() > 0 && !val_str.contains("null") && !isIsDuplicate()) {
                 InsertQuery(table_name, meta, stmt_auth_art, att_str, val_str);
             }
         }
@@ -58,9 +59,13 @@ public class Author_of_article_SQL extends SQL_operation {
     public String Author_of_article_value_string(String table_name, String author_name, String author_surname, String pmc_id, Statement stmt_auth_art) throws SQLException {
         String val_str = "";
         String pmc_id_str = appendQuote(pmc_id);
-        String author_id = appendQuote(Author_id_attribute(author_name, author_surname));
+        String author_id = Author_id_attribute(author_name, author_surname);
+        String author_id_str = appendQuote(author_id);
 
-        val_str = author_id + "," + pmc_id;
+        if (CheckExisted_ID_Clauses_Value(Configuration.AUTHOR_OF_ARTICLE_TBL, "author_id", "author_id = '" + author_id + "' AND pmc_id = '" + pmc_id + "'", stmt_auth_art).length() > 0) {
+            setIsDuplicate(true);
+        }
+        val_str = author_id_str + "," + pmc_id_str;
         return val_str;
     }
 
@@ -71,5 +76,19 @@ public class Author_of_article_SQL extends SQL_operation {
             ID = null;
         }
         return ID;
+    }
+
+    /**
+     * @return the isDuplicate
+     */
+    public boolean isIsDuplicate() {
+        return isDuplicate;
+    }
+
+    /**
+     * @param isDuplicate the isDuplicate to set
+     */
+    public void setIsDuplicate(boolean isDuplicate) {
+        this.isDuplicate = isDuplicate;
     }
 }

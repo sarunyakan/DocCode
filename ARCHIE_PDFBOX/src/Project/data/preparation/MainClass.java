@@ -42,10 +42,11 @@ public class MainClass {
         //---------------[Add image description into database]----------------------
         DatabaseConnect db = new DatabaseConnect();
         SQL_operation sql = null;
+        sql = new SQL_operation();
 
         //-----------------[RESET SEQUENCE]-------------------------------------------------------------------------
         if (Configuration.RESET.equalsIgnoreCase("on")) {
-            sql = new SQL_operation();
+
             sql.truncateTable(db.getConnection(), Configuration.FIGURE_TBL);
 
             sql.resetSeq(db.getConnection(), Configuration.ARTICLE_IMAGE_SEQ);
@@ -93,17 +94,26 @@ public class MainClass {
         for (Path filename : filelist) {
             System.out.println(filename);
             readpdf = new ReadPDF(filename, Configuration.SWITCH_XML_MODE);
+            boolean is_old_paper = sql.checkPaperYear(db.getConnection(), readpdf.getTextExtraction().getPmc_id_value());
+            boolean is_existed_paper = sql.checkExistedPaper(db.getConnection(), readpdf.getTextExtraction().getPmc_id_value());
             //------[INSERT DATA INTO DATABASE]---------
-            sql = new SQL_operation(db.getConnection(), readpdf.getTextExtraction(), readpdf.getFilename());
+
+            if (is_existed_paper == false && is_old_paper == false && readpdf.getTextExtraction().getArticle_title_value().size() == 1 && readpdf.getTextExtraction().getTitle_trans_value().size() == 0) {
+                sql = new SQL_operation(db.getConnection(), readpdf.getTextExtraction(), readpdf.getFilename());
+            }
+
         }
         //------[INSERT DATA INTO DATABASE]---------
         sql = new SQL_operation(db.getConnection());            //Figure
-        sql = new SQL_operation(db.getConnection(), imgList);   //Article_image
-
-        for (Path filename : filelist) {
-            System.out.println("IMAGE_OF_PARAGRAPH : " + filename);
-            readpdf = new ReadPDF(filename, Configuration.SWITCH_XML_MODE);
-            sql = new SQL_operation(db.getConnection(), readpdf.getTextExtraction());   //IMAGE_OF_PARAGRAPH
-        }
+//        sql = new SQL_operation(db.getConnection(), imgList);   //Article_image
+//
+//        for (Path filename : filelist) {
+//            System.out.println("IMAGE_OF_PARAGRAPH : " + filename);
+//            readpdf = new ReadPDF(filename, Configuration.SWITCH_XML_MODE);
+//            boolean is_old_paper = sql.checkPaperYear(db.getConnection(), readpdf.getTextExtraction().getPmc_id_value());
+//            if (is_old_paper == false && readpdf.getTextExtraction().getArticle_title_value().size() == 1 && readpdf.getTextExtraction().getTitle_trans_value().size() == 0) {
+//                sql = new SQL_operation(db.getConnection(), readpdf.getTextExtraction());   //IMAGE_OF_PARAGRAPH
+//            }
+//        }
     }
 }

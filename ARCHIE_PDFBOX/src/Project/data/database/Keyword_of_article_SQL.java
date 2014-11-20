@@ -54,10 +54,14 @@ public class Keyword_of_article_SQL extends SQL_operation {
 
     public String Keyword_of_article_value_string(String table_name, String keywords_value, String pmc_id_value, Statement stmt_kw_art) throws SQLException {
         String val_str = "";
-        String pmc_id_str = appendQuote(pmc_id_value);
-        String keywords_value_str = appendQuote(Keyword_id_attribute(keywords_value));
 
-        val_str = keywords_value_str + "," + pmc_id_str;
+        String pmc_id_str = appendQuote(pmc_id_value);
+        String kw_val = Keyword_id_attribute(keywords_value.replace("'", "''"));
+        String keywords_value_str = appendQuote(kw_val);
+        boolean chk = CheckExisted2Value(table_name, "kw_id = '" + kw_val + "' AND pmc_id = '" + pmc_id_value + "'", stmt_kw_art);
+        if (!chk) {
+            val_str = keywords_value_str + "," + pmc_id_str;
+        }
         return val_str;
     }
 

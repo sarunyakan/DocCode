@@ -34,6 +34,7 @@ public class SQL_operation {
     private Path path = null;
 
     public SQL_operation() {
+
     }
 
     //------------[Constructor - FIGURE]--------------------
@@ -232,6 +233,32 @@ public class SQL_operation {
 //        System.out.println(query);
         stmt_trunc.executeUpdate(query);
         stmt_trunc.close();
+    }
+
+    public boolean checkPaperYear(Connection conn, ArrayList<String> pmc_id_value) throws SQLException {
+        stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        boolean isFound = false;
+        for (String pmc_id_value1 : pmc_id_value) {
+            String query = SelectIDStr(Configuration.ARTICLE__PUBLISH_YEAR_TBL, "pmc_id", "year", pmc_id_value1);
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkExistedPaper(Connection conn, ArrayList<String> pmc_id_value) throws SQLException {
+        stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        boolean isFound = false;
+        for (String pmc_id_value1 : pmc_id_value) {
+            String query = SelectIDStr(Configuration.ARTICLE_TBL, "pmc_id", "pmc_id", pmc_id_value1);
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

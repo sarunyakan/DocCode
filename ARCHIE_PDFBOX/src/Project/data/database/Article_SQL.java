@@ -74,7 +74,7 @@ public class Article_SQL extends SQL_operation {
         String pmid = appendQuote(pmid_value);
 
         String pathname = appendQuote(File_path_id_attribute(filename.toString()));
-        String subject = appendQuote(Subject_id_attribute(subject_value));
+        String subject = appendQuote(Subject_id_attribute(subject_value.replace("'","''")));
         String journal = appendQuote(Journal_id_attribute(journal_id_value));
 
         val_str = pmc_id + "," + article_title + "," + pmid + "," + pathname + "," + subject + "," + journal;

@@ -53,7 +53,7 @@ public class Subject_SQL extends SQL_operation {
 
         String val_str = "";
 
-        String subject = subject_ele;
+        String subject = subject_ele.replace("'","''");
         boolean chk = CheckExistedValue(table_name, meta.getColumnName(2), subject, stmt_subject);
         if (!chk) {
             int seq = getNextval(Configuration.SUBJECT_SEQ, stmt_subject);

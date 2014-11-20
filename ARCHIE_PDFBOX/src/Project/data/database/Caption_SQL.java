@@ -48,7 +48,7 @@ public class Caption_SQL extends SQL_operation {
         ResultSetMetaData meta = rs.getMetaData();
         String att_str = Attribute_string(table_name, meta);
         String val_str = "";
-        String str_title = "";
+        String str_title = "", str_para = "";
         for (int i = 0; i < caption_fignum.size(); i++) {
             if (table_name.equalsIgnoreCase(Configuration.IMAGE_CAPTION_TBL)) {
 
@@ -57,7 +57,13 @@ public class Caption_SQL extends SQL_operation {
                 } else {
                     str_title = caption_title.get(i);
                 }
-                val_str = ImageCaption_value_string(table_name, meta, str_title, caption_para.get(i), caption_fignum.get(i), caption_file, stmt_cap);
+
+                if (caption_para.size() == 0) {
+                    str_para = null;
+                } else {
+                    str_para = caption_para.get(i);
+                }
+                val_str = ImageCaption_value_string(table_name, meta, str_title, str_para, caption_fignum.get(i), caption_file, stmt_cap);
             }
             InsertQuery(table_name, meta, stmt_cap, att_str, val_str);
         }
@@ -67,7 +73,13 @@ public class Caption_SQL extends SQL_operation {
     public String ImageCaption_value_string(String table_name, ResultSetMetaData meta, String caption_title, String caption_para, String caption_fignum, Path caption_file, Statement stmt_cap) throws SQLException {
         String val_str = "";
         String caption_title_str = "";
-        String caption_para_str = appendQuote(caption_para.replace("'", "''"));
+        String caption_para_str = "";
+
+        if (caption_para == null) {
+            caption_para_str = null;
+        } else {
+            caption_para_str = appendQuote(caption_para.replace("'", "''"));
+        }
 
         if (caption_title == null) {
             caption_title_str = null;
@@ -87,7 +99,6 @@ public class Caption_SQL extends SQL_operation {
         String imgCap_pk = appendQuote(Configuration.IMAGE_CAPTION_PK + seq);
 
         val_str = imgCap_pk + "," + caption_para_str + "," + caption_fignum_str + "," + caption_file_str + "," + caption_title_str;
-
         return val_str;
     }
 

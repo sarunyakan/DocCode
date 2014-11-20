@@ -56,6 +56,7 @@ public class TextExtraction {
     private ArrayList<String> figurenum_value = new ArrayList<String>();
     private ArrayList<String> caption_title_value = new ArrayList<String>();
     private ArrayList<String> caption_para_value = new ArrayList<String>();
+    private ArrayList<String> title_trans_value = new ArrayList<String>();
     private ArrayList<String> figure_detail_value = new ArrayList<String>();
     private ArrayList<String> paragraph_value = new ArrayList<String>();
 
@@ -72,6 +73,7 @@ public class TextExtraction {
         builder = builderFactory.newDocumentBuilder();
         xmlDocument = builder.parse(file);
         xPath = XPathFactory.newInstance().newXPath();
+        title_trans_value = ExtractArticleXML("ARTICLE-TITLE-TRANS", Configuration.XML_ARTICLE_TRANS_TITLE);
 
         journal_title_value = ExtractArticleXML("JOURNAL-TITLE", Configuration.XML_JOURNAL_TITLE);
         journal_id_value = ExtractArticleXML("JOURNAL-ID", Configuration.XML_JOURNAL_ID);
@@ -138,14 +140,16 @@ public class TextExtraction {
             "<sc>", "</sc>",
             //            "<inline-formula><inline-graphic [\\w|-|:-]+=\"[\\w|-]+.(gif|png|jpg|tif)\"/></inline-formula>",
             //"<ext-link [\\w|-]+=\"([\\w|-]+| )+\" [[\\w|-|:-]+=\"[\\w|-| |:-|/|.|?-|#|&|;|=]+\"]*>"
-            "<ext-link [([\\w|-|:-]| )+=\"[\\w~|:|/|.|-|+|&|#|%|@|?-|=|;-]+\"]*>", "</ext-link>",
+            "<ext-link( [\\w*-:/\\. ]*={0,1}\"[\\w*-~():///.+!@#$%& ;//?]*\")*>", "</ext-link>",
             //"<xref [\\w|-]+=\"([\\w|-]+| )+\" [[\\w|-]+=\"[\\w|-| ]+\"]*>", 
-            "<xref [([\\w|-]| )+=\"[\\w|-| ]+\"]*/?>", "</xref>",
+            "<xref( [\\w-:\\.]*={0,1}\"[\\w-:;//. ]*\")*>", "</xref>",
             "<graphic xmlns:xlink=.+ xlink:href=\"[\\w|-]+\"]/>",
             "<inline-graphic xlink:href=\"[\\w|-]+.(gif|png|jpg|tif)\"( [\\w|-]+=\"[\\w|-]+\")*/>",
-            "<graphic xlink:href=\"[\\w|-]+\"( [\\w|-]+=\"[\\w|-]+\")*/>",
-            "<graphic xlink:href=.*</graphic>",
-            "<sup>", "</sup>", "<sub>", "</sub>", "<bold>", "</bold>", "<italic>", "</italic>", "<styled-content style=\"fixed-case\">", "</styled-content>"};
+            //"<graphic xlink:href=\"[\\w|-]+\"( [\\w|-]+=\"[\\w|-]+\")*/>",
+            //"<graphic xlink:href=.*</graphic>",
+            "<sup( [a-z]*={0,1}([a-z]|\")*)*>", "</sup>",
+            "<sub( [a-z]*={0,1}([a-z]|\")*)*>", "</sub>", "<bold>", "</bold>", "<italic>", "</italic>",
+            "<styled-content style=\"fixed-case\">", "</styled-content>"};
 
         for (String pat : pattern_str) {
             Pattern pattern = Pattern.compile(pat);
@@ -203,7 +207,7 @@ public class TextExtraction {
                 for (int i = 0; i < nodeList.getLength(); i++) {
                     String text = nodeList.item(i).getFirstChild().getNodeValue();
                     if (text != null) {
-                        //System.out.println("\t" + text);
+//                    System.out.println("\t" + text);
                         node_value.add(text);
                     }
                 }
@@ -457,6 +461,20 @@ public class TextExtraction {
      */
     public void setParagraph_value(ArrayList<String> paragraph_value) {
         this.paragraph_value = paragraph_value;
+    }
+
+    /**
+     * @return the title_trans_value
+     */
+    public ArrayList<String> getTitle_trans_value() {
+        return title_trans_value;
+    }
+
+    /**
+     * @param title_trans_value the title_trans_value to set
+     */
+    public void setTitle_trans_value(ArrayList<String> title_trans_value) {
+        this.title_trans_value = title_trans_value;
     }
 
 }
